@@ -16,9 +16,10 @@ import cash_entry_plan
 import covered_call_advisor
 import daily_watch
 import macro_analyzer
+import macro_regime
 import options_research
 import report_generator
-from report_format import EMAIL_BUDGET, email_digest, render_html
+from report_format import EMAIL_BUDGET, email_digest, render_html, split_sections
 import scorer
 import sell_put_advisor
 import stock_signals
@@ -34,10 +35,14 @@ def validate(markdown, html, rows):
     assert markdown.index('## Executive Summary') < markdown.index('## General')
     assert markdown.index('## General') < markdown.index('## 今日建议买入')
     assert '现金入场计划' in markdown and '候选分（未启用）' in markdown
-    assert '## 半导体加仓' in markdown and markdown.index('## AI Portfolio') < markdown.index('## 半导体加仓') < markdown.index('## 光学互联') < markdown.index('## SaaS Watch')
-    assert '## SaaS Watch' in markdown and markdown.index('## SaaS Watch') < markdown.index('## 抄底布局') < markdown.index('## 电力加仓') < markdown.index('## 今日建议买入')
-    assert '## 抄底布局' in markdown and '## 电力加仓' in markdown
-    assert '## AI Portfolio' in markdown and markdown.index('## AI Portfolio') < markdown.index('## 今日建议买入')
+    order = ['## 今日建议买入', '## Options Desk', '## 主题观察', '## 附录', '## Detailed Analysis']
+    assert [markdown.index(k) for k in order] == sorted(markdown.index(k) for k in order)
+    assert markdown.count('### 现金入场计划') == 1
+    _, sections = split_sections(markdown)
+    watch = next(body for title, body in sections if title.startswith('主题观察'))
+    symbols = re.findall(r'^\| \*\*([^*]+)\*\* \|', watch, re.M)
+    assert len(symbols) == len(set(symbols)), 'Duplicate watch rows'
+    assert all(label in watch for label in ('AI', '半导体', '光学互联', 'SaaS', '抄底布局', '电力'))
     assert 'Bottom 20 — Sell/Avoid' not in markdown
     width = None
     for line in markdown.splitlines():
@@ -48,8 +53,10 @@ def validate(markdown, html, rows):
         else:
             width = None
     soup = BeautifulSoup(html, 'html.parser')
-    assert len(soup.select('details')) == len(rows)
-    assert len(soup.select('table')) >= 10
+    assert len(soup.select('details.stock-detail')) == len(rows)
+    assert len(soup.select('details.appendix')) == 4
+    assert len(soup.select('details.watch-book')) == 1
+    assert len(soup.select('table')) >= 6
     assert not soup.select('script')
     ids = [tag['id'] for tag in soup.select('[id]')]
     assert len(ids) == len(set(ids))
@@ -63,12 +70,50 @@ def validate(markdown, html, rows):
     # The mailed body must stay under Gmail's clip limit and keep the decision desks.
     digest, omitted = email_digest(markdown)
     assert len(digest.encode('utf-8')) <= EMAIL_BUDGET, len(digest)
-    for key in ('Executive Summary', 'General', 'AI Portfolio', '半导体加仓', '抄底布局', '今日建议买入'):
+    for key in ('Executive Summary', 'General', '主题观察', '今日建议买入', 'Options Desk'):
         assert key in digest and not any(key in o for o in omitted), key
+    assert 'IV÷RV 是' not in digest and '候选分（未启用）' not in digest
     assert 'Detailed Analysis' in omitted
+    main = markdown.split('## 附录', 1)[0]
     return {'stocks':len(rows), 'tables':len(soup.select('table')),
-            'sections':len(ids), 'collapsed_stock_details':len(soup.select('details')),
+            'sections':len(ids), 'watch_symbols':len(symbols),
+            'main_text_chars':len(main), 'full_text_chars':len(markdown),
+            'collapsed_stock_details':len(soup.select('details.stock-detail')),
             'email_digest_bytes':len(digest.encode('utf-8')), 'email_omitted':omitted}
+
+
+def replay_regime(rows, macro):
+    """Only derive fields present in the saved snapshot; never fetch during replay."""
+    market = macro.get('market_data') or {}
+    snap = (macro.get('cash_entry_plan') or {}).get('snapshot') or {}
+    data = {'as_of':snap.get('as_of'), 'tape':{}, 'rates':{}, 'vol':{}, 'other':{},
+            'fred':{}, 'breadth_sp500':None, 'breadth_universe':macro_regime.universe_breadth(rows),
+            'analog':None, 'events':[], 'events_coverage_days':0}
+    for symbol in macro_regime.TAPE:
+        item = market.get(symbol) or {}
+        price = item.get('price')
+        if price is None:
+            continue
+        data['tape'][symbol] = {
+            'last':price, 'from_high':item.get('from_high'),
+            'ret_1m':item.get('change_1m'), 'ret_5d':item.get('change_5d'),
+            'ret_3m':item.get('change_3m'),
+            'vs_sma50':(price/item['sma_50']-1)*100 if item.get('sma_50') else None,
+            'vs_sma200':(price/item['sma_200']-1)*100 if item.get('sma_200') else None}
+    for symbol in macro_regime.RATES:
+        item = market.get(symbol) or {}
+        if item.get('price') is not None:
+            data['rates'][symbol] = item['price']
+    for symbol in macro_regime.VOL:
+        item = market.get(symbol) or {}
+        if item.get('price') is not None:
+            data['vol'][symbol] = item['price']
+    data['spx'] = {'last':snap.get('spx'), 'peak':snap.get('peak'),
+                   'peak_date':snap.get('peak_date'), 'drawdown':snap.get('drawdown_pct')}
+    data['ladder'] = macro_regime.entry_ladder(snap.get('spx'), snap.get('peak'), snap.get('vix'))
+    data['reduce_triggers'] = macro_regime.reduce_triggers(data)
+    return {'data':data, 'synthesis':None,
+            'source':'缓存快照回放；未含 FRED、标普广度、历史类比或 AI 新闻'}
 
 
 def run(replay=None):
@@ -78,6 +123,11 @@ def run(replay=None):
     if replay:
         inputs = json.loads(Path(replay).read_text())
         rows, macro, snapshots = inputs['rows'], inputs['macro'], inputs['snapshots']
+        # Older samples predate the percentage-only cash plan schema. Re-run
+        # the current evaluator on the saved quote (which may be stale).
+        old_plan = macro.get('cash_entry_plan') or {}
+        if old_plan and 'target_pct' not in old_plan:
+            macro['cash_entry_plan'] = cash_entry_plan.evaluate(old_plan['snapshot'])
     else:
         cache = ROOT / 'reports' / 'score_validation_cache'
         spy = pd.read_csv(cache/'SPY.csv', index_col=0, parse_dates=True)
@@ -116,6 +166,8 @@ def run(replay=None):
         inputs = {'rows':rows,'macro':macro,'snapshots':snapshots,'sell_put_plan':sell_put_plan,
                   'scope':'16 cached equity histories; fresh public macro/options; neutral missing sentiment. '
                           'No AI, broker holdings, discovery or email sending. Holdings excluded from validation.'}
+    regime = inputs.get('regime') or replay_regime(rows, macro)
+    inputs['regime'] = regime
     (output/'inputs.json').write_text(json.dumps(inputs,ensure_ascii=False,indent=2,allow_nan=False,default=str))
     # Replayed plans carry ISO strings where the live run had dates; the renderer accepts both.
     sell_put_plan = inputs.get('sell_put_plan') or {'error':'saved sample predates the AI sell-put plan'}
@@ -130,6 +182,7 @@ def run(replay=None):
     # Holdings stay out of the validation artifact; the panic-drop radar keeps
     # its section but must not fetch chains during a replay.
     with patch.object(daily_watch,'held_tickers',return_value=set()), \
+         patch.object(macro_regime,'build',return_value=regime), \
          patch.object(report_generator,'_build_alpaca_performance',return_value=''), \
          patch.object(covered_call_advisor,'build_covered_call_ladders',return_value=''), \
          patch.object(sell_put_advisor,'analyze_put_ladder',

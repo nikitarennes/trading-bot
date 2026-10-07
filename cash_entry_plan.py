@@ -189,7 +189,7 @@ def next_trigger(snapshot):
     return None
 
 
-def render(plan):
+def render(plan, compact=False):
     snap=plan['snapshot']
     lines=['### 现金入场计划 — VIX × SPX 分批入场\n',
            '这是单独的现金入场预算，全部按现金池百分比表示（金额自行换算，不写入报告）；比例是累计计划，不是 Alpaca 账户余额或自动交易指令。\n',
@@ -224,6 +224,26 @@ def render(plan):
               '高点取9/8起点前63个交易日最高收盘价，此后创新高上调，旧高点移出窗口不下调；SPX 使用指数 ^GSPC，不用 SPY 复权价替代。',
               'VIX 高反映期权市场预期波动大，并不确认底部。恐慌买点仍是分批风险预算；指数现金计划不能直接转成买 call 或卖 put 指令。',
               '若 VIX 升高但指数尚未充分回撤，先等价格；若指数已回撤而 VIX 回落，单独复核企稳与已执行资金，不机械打满。\n']
+    if compact:
+        # The ladder is shown once; keep the decision, freshness and funding
+        # constraints without restating every index level and definition.
+        selected = lines[:12]
+        if snap.get('status') == 'ok':
+            selected.append(f"**读数截至 {snap['as_of']}：** VIX {snap['vix']:.2f}；"
+                            f"SPX {snap['spx']:,.2f}；参考高点 {snap['peak']:,.2f}（{snap['peak_date']}）；"
+                            f"回撤 {snap['drawdown_pct']:+.2f}%。\n")
+        selected.extend([f"**当前档位：{plan['tier']}。** {plan['reason']}",
+                         f"累计目标 {_p(plan['target_pct'])}，目标剩余 {_p(plan['target_cash_pct'])}；"
+                         f"截至 {plan['capital_as_of']} 声明已投 {_p(plan['declared_pct'])}，"
+                         f"差额 {_p(plan['gap_pct'])}，本轮参考上限 {_p(plan['next_batch_cap_pct'])}。"])
+        if plan['capital_needs_confirmation']:
+            selected.append('资金状态尚未今日确认，执行前更新已投入记录；重复报告不代表再买同一笔。')
+        nxt = plan.get('next_trigger')
+        if nxt:
+            selected.append(f"下一档 {nxt['tier']}：SPX ≤ {nxt['spx_level']:,.0f} 且 "
+                            f"VIX ≥ {nxt['vix_need']}；两项同时满足。")
+        selected.append('参考高点创新高上调、旧高点移出窗口不下调；VIX 反映预期波动，不能确认底部。')
+        return '\n\n'.join(selected[:2])+'\n'+'\n'.join(selected[2:])+'\n'
     return '\n\n'.join(lines[:2])+'\n'+ '\n'.join(lines[2:])+'\n'
 
 

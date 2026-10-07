@@ -18,6 +18,7 @@ import os
 import sys
 import argparse
 from datetime import datetime
+from pathlib import Path
 
 # Ensure we import from the script's own directory (for launchd)
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -118,120 +119,8 @@ def run_daily(tickers=None, skip_news=False, send_mail=True, trade=False,
 
     # Build email summary
     top_picks = [r for r in results if r["score_result"]["recommendation"] in ("Strong Buy", "Buy")]
-    reduces = [r for r in results if r["score_result"]["recommendation"] in ("Reduce", "Avoid")]
-
-    data_as_of = max((r.get("data_as_of") for r in results if r.get("data_as_of")), default="未知")
-    summary_lines = [
-        f"Daily Stock Analysis — {date_str}",
-        f"数据截至: {data_as_of}（最近一根完整日线收盘）",
-        f"Stocks analyzed: {len(results)}",
-        "",
-    ]
-    outlook = (macro_result or {}).get("trend_outlook") or {}
-    trend = (macro_result or {}).get("trend") or {}
-    if outlook or trend:
-        summary_lines.append("=== GENERAL — 美股趋势 ===")
-        if trend.get("label"):
-            summary_lines.append(
-                f"当前: {trend.get('label')} · {trend.get('structure_label', '')}"
-            )
-        if outlook.get("stance_label"):
-            summary_lines.append(f"仓位建议: {outlook['stance_label']}")
-        if outlook.get("sizing_guidance"):
-            summary_lines.append(outlook["sizing_guidance"])
-        for key, title in (
-            ("outlook_1w", "一周"),
-            ("outlook_1m", "一个月"),
-            ("outlook_6m", "半年"),
-        ):
-            h = outlook.get(key) or {}
-            if h.get("view"):
-                direction = h.get("direction", "")
-                summary_lines.append(f"{title} ({direction}): {h['view']}")
-        summary_lines.append("")
-
-    try:
-        import daily_watch
-        summary_lines.extend(
-            daily_watch.email_macro_lines(macro_result=macro_result)
-        )
-        summary_lines.append("")
-        if ai_portfolio_data and not ai_portfolio_data.get("error"):
-            import ai_portfolio
-            summary_lines.extend(ai_portfolio.email_lines(ai_portfolio_data))
-            summary_lines.append("")
-        if chip_layout_data and not chip_layout_data.get("error"):
-            import chip_layout
-            summary_lines.extend(chip_layout.email_lines(chip_layout_data))
-            summary_lines.append("")
-        if optics_layout_data and not optics_layout_data.get("error"):
-            import optics_layout
-            summary_lines.extend(optics_layout.email_lines(optics_layout_data))
-            summary_lines.append("")
-        if saas_watch_data and not saas_watch_data.get("error"):
-            import saas_watch
-            summary_lines.extend(saas_watch.email_lines(saas_watch_data))
-            summary_lines.append("")
-        if dip_layout_data and not dip_layout_data.get("error"):
-            import dip_layout
-            summary_lines.extend(dip_layout.email_lines(dip_layout_data))
-            summary_lines.append("")
-        if power_layout_data and not power_layout_data.get("error"):
-            import power_layout
-            summary_lines.extend(power_layout.email_lines(power_layout_data))
-            summary_lines.append("")
-        summary_lines.extend(
-            daily_watch.email_watch_lines(
-                [{**r, 'options_decision':options_decisions.get(r['ticker'],
-                  {'status':'wait','action':'wait','reasons':['期权链未评估或数据不可用']})} for r in results],
-                macro_result=macro_result)
-        )
-        summary_lines.append("")
-    except Exception as e:
-        summary_lines.append(f"=== MACRO / OPTIONS / WATCH (failed: {e}) ===")
-        summary_lines.append("")
-
-    if sell_put_plan and not sell_put_plan.get("error"):
-        summary_lines.extend(ai_sell_put_plan.email_lines(sell_put_plan))
-        summary_lines.append("")
-
-    summary_lines.extend([
-        f"=== TOP PICKS ({len(top_picks)}) ===",
-    ])
-    for r in top_picks[:15]:
-        sr = r["score_result"]
-        summary_lines.append(
-            f"  {r['ticker']:<8} Score: {sr['score']:>5.0f} ({sr['grade']}) "
-            f"— {sr['recommendation']} | Regime: {sr.get('regime', '-')}"
-        )
-
-    # Bottom 20 to sell/avoid
-    bottom_20 = list(reversed(results[-20:])) if len(results) >= 20 else list(reversed(results))
-    summary_lines.extend([
-        "",
-        f"=== BOTTOM 20 — SELL/AVOID ===",
-    ])
-    for r in bottom_20:
-        sr = r["score_result"]
-        summary_lines.append(
-            f"  {r['ticker']:<8} Score: {sr['score']:>5.0f} ({sr['grade']}) "
-            f"— {sr['recommendation']} | Regime: {sr.get('regime', '-')}"
-        )
-
-    # Category counts
-    categories = {}
-    for r in results:
-        rec = r["score_result"]["recommendation"]
-        categories[rec] = categories.get(rec, 0) + 1
-
-    summary_lines.extend(["", "=== SUMMARY ==="])
-    for cat in ["Strong Buy", "Buy", "Hold", "Reduce", "Avoid"]:
-        count = categories.get(cat, 0)
-        if count > 0:
-            summary_lines.append(f"  {cat}: {count}")
-
-    summary_lines.append(f"\nFull report attached: {os.path.basename(report_path)}")
-    summary = "\n".join(summary_lines)
+    from report_sections import plain_summary
+    summary = plain_summary(Path(report_path).read_text(encoding="utf-8"))
 
     print(f"\n{summary}")
 

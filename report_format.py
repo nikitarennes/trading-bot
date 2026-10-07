@@ -12,6 +12,9 @@ def format_markdown(text):
         def priority(part):
             title = part.splitlines()[0]
             groups = [('Executive Summary', 0), ('General', 1), ('Macro Desk', 2),
+                      ('主题观察', 5.5), ('附录 — 期权', 17.1),
+                      ('附录 — 宏观', 17.2), ('附录 — 评分', 17.3),
+                      ('附录 — 方法', 19), ('Portfolio Performance', 10.5),
                       ('AI Portfolio', 2.5), ('半导体加仓', 2.55),
                       ('光学互联', 2.57),
                       ('SaaS Watch', 2.6),
@@ -101,8 +104,13 @@ def render_html(markdown, *, email=False):
         match = re.search(r'<h2[^>]*>Detailed Analysis</h2>(.*?)(?=<h2|\Z)', body, re.S)
         if match:
             detail = re.sub(r'<h3>(.*?)</h3>(.*?)(?=<h3>|\Z)',
-                            r'<details><summary>\1</summary>\2</details>', match[1], flags=re.S)
+                            r'<details class="stock-detail"><summary>\1</summary>\2</details>', match[1], flags=re.S)
             body = body[:match.start(1)] + detail + body[match.end(1):]
+        body = re.sub(r'(<h2[^>]*>附录[^<]*</h2>)(.*?)(?=<h2|\Z)',
+                      r'\1<details class="appendix"><summary>展开数据与依据</summary>\2</details>', body, flags=re.S)
+        body = re.sub(r'<h3>逐股观察</h3>(.*?)(?=<h2|\Z)',
+                      r'<details class="watch-book"><summary>展开合并名单与参考点位</summary>\1</details>',
+                      body, flags=re.S)
     body = body.replace('<table>', '<div class="table-scroll"><table>')
     body = body.replace('</table>', '</table></div>')
     navigation = '<nav aria-label="报告目录"><strong>报告导航</strong><ul>' + ''.join(
@@ -161,14 +169,15 @@ def _compact_section(section):
     return text
 
 
-def email_digest(markdown, budget=EMAIL_BUDGET, section_cap=EMAIL_SECTION_CAP):
+def decision_markdown(markdown, budget=EMAIL_BUDGET, section_cap=EMAIL_SECTION_CAP):
     """Email body that stays under Gmail's clip limit.
 
     Sections are taken in report order (already decision-first). A section that
     renders larger than `section_cap` is reduced to its lead and summary table;
     the first section that would push the total over `budget` and everything
     after it are listed as living in the attached full report, so the body is
-    always a clean prefix of the report. Returns (html, omitted).
+    always a clean prefix of the decision desks. Evidence appendices stay in
+    the attachment. Returns (markdown, omitted, compacted).
     """
     head, sections = split_sections(markdown)
     body, omitted, compacted = head, [], []
@@ -178,11 +187,11 @@ def email_digest(markdown, budget=EMAIL_BUDGET, section_cap=EMAIL_SECTION_CAP):
     size = overhead + measure(head) + 2500   # room for the closing 邮件正文说明 block
     full = False
     for title, section in sections:
-        if full or title.startswith('Detailed Analysis') or title.startswith('Disclaimer'):
+        if full or title.startswith(('附录', 'Detailed Analysis', 'Disclaimer')):
             omitted.append(title)
             continue
         html_size = measure(section)
-        if html_size > section_cap:
+        if html_size > section_cap or title.startswith('主题观察'):
             section = _compact_section(section)
             html_size = measure(section)
             compacted.append(title)
@@ -192,14 +201,35 @@ def email_digest(markdown, budget=EMAIL_BUDGET, section_cap=EMAIL_SECTION_CAP):
             full = True
             omitted.append(title)
             continue
-        body += section
+        body += '\n\n' + section
         size += html_size
-    if omitted or compacted:
+    return body, omitted, compacted
+
+
+def email_digest(markdown, budget=EMAIL_BUDGET, section_cap=EMAIL_SECTION_CAP):
+    """Concise decision desks in email; full evidence remains in attachments."""
+    body, omitted, compacted = decision_markdown(markdown, budget, section_cap)
+    head, sections = split_sections(body)
+    kept = list(sections)
+    def closing():
+        if not omitted and not compacted:
+            return ''
         note = '## 邮件正文说明\n\n'
         if compacted:
             note += '仅摘要：' + '；'.join(compacted) + '。\n'
         if omitted:
             note += '未放入正文：' + '；'.join(omitted) + '。\n'
-        note += '完整报告（含逐股 Detailed Analysis）见附件 HTML，可直接在浏览器打开。Gmail 会截断超过 100KB 的邮件正文，所以正文只保留决策栏目。\n'
-        body += '\n' + note
-    return render_html(body, email=True), omitted
+        note += '完整报告与逐股依据见附件 HTML，可在浏览器展开附录。\n'
+        return '\n' + note
+    # Measure the actual closing note as well, including arbitrarily long
+    # section names; the old fixed reserve could underestimate its size.
+    while True:
+        output = render_html(head + ''.join(section for _, section in kept) + closing(), email=True)
+        if len(output.encode('utf-8')) <= budget:
+            return output, omitted
+        if not kept:
+            raise ValueError('Email budget cannot fit report metadata and omission notice')
+        title, _ = kept.pop()
+        omitted.insert(0, title)
+        if title in compacted:
+            compacted.remove(title)

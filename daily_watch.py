@@ -819,13 +819,40 @@ def _index_dip_lines(macro_result):
     return lines
 
 
-def build_buy_section(ranked, macro_result=None, held=None, today=None):
+def build_buy_section(ranked, macro_result=None, held=None, today=None, compact=False):
     """Markdown: 抄底 first, then 加仓, then names waiting for a better print."""
     cards, event = _load_cards(ranked, held=held, today=today, macro_result=macro_result)
     dips = dip_candidates(cards)
     adds = add_candidates(cards)
     waiting = [c for c in buy_picks(cards, include_watch=True, n=20)
                if c["buy_action"] == "watch_buy"][:5]
+    if compact:
+        lines = ["## 今日建议买入 — 抄底与加仓\n",
+                 "仓位比例按该股买入预算计算；指数现金池单独执行 General 阶梯。"
+                 "高评分仍需折扣与趋势确认，事件窗口已计入下方仓位。\n"]
+        rows = []
+        seen = set()
+        for action, candidates in (("抄底", dips), ("加仓", adds), ("候补", waiting)):
+            for c in candidates:
+                if c['ticker'] in seen:
+                    continue
+                seen.add(c['ticker'])
+                rows.append([f"**{c['ticker']}**", action,
+                             f"{c['score']:.1f}" if c['score'] is not None else '—',
+                             _fmt(c['change_1d']), _fmt(c.get('from_high')),
+                             _fmt(c.get('from_sma50')), c.get('buy_size') or '—',
+                             c.get('buy_note') or '—'])
+        if rows:
+            lines.append(_table(['股票', '动作', '评分', '1日', '距高点', '距50日', '预算档位', '条件 / 理由'], rows))
+        if not dips and not adds:
+            lines.append('今天没有过线的抄底或加仓候选；候补需等条件成立。\n')
+        for action, label in (('trim_extended', '过度延伸，减仓观察'),
+                              ('no_chase', '急涨，不追'), ('avoid_knife', '弱势急跌，不接')):
+            names = [c['ticker'] for c in cards if c.get('stock_action') == action]
+            if names:
+                shown = '、'.join(names[:8]) + (f' 等 {len(names)} 只' if len(names) > 8 else '')
+                lines.append(f"**{label}：** {shown}。逐股原因见 Detailed Analysis。\n")
+        return '\n'.join(lines)
     headers = ["代码", "名称", "评分", "1日", "5日", "距高点", "回撤", "距50日", "距200日", "RSI", "加仓判断", "仓位"]
 
     lines = [
@@ -888,7 +915,7 @@ def build_buy_section(ranked, macro_result=None, held=None, today=None):
     return "\n".join(lines)
 
 
-def build_options_desk_section(ranked, macro_result=None, held=None, today=None):
+def build_options_desk_section(ranked, macro_result=None, held=None, today=None, compact=False):
     """Markdown: today's options stance + compact tickets."""
     cards, event = _load_cards(ranked, held=held, today=today, macro_result=macro_result)
     vix = ((macro_result or {}).get("trend") or {}).get("vix")
@@ -896,6 +923,24 @@ def build_options_desk_section(ranked, macro_result=None, held=None, today=None)
     nxt = ""
     if event.get("event"):
         nxt = f"{event['event'].isoformat()} {event.get('event_label', '')}（{event['days']} 天后）"
+
+    if compact:
+        lines = ["## Options Desk — 今日期权操作\n",
+                 f"**权利金立场：{event['label']}**" + (f" · {nxt}" if nxt else '') + '\n',
+                 event['reason'] + '\n',
+                 '合约仅为新开仓候选；不以急涨买短 call、不以大跌单独卖 put。'
+                 'Covered call 需足额股票且愿意卖股，现金担保 put 需预留接股资金；杠杆 ETF 跳过。\n']
+        assessed = [c for c in cards if (c.get('options_decision') or {}).get('version')]
+        if assessed:
+            lines.append(_table(['股票', '方向分', '统一期权判断'], [
+                [f"**{c['ticker']}**", _fmt((c['options_decision'].get('direction') or {}).get('score'), suffix=''),
+                 c['options_label']] for c in assessed]))
+        missing = len(cards) - len(assessed)
+        if missing:
+            lines.append(f'其余 {missing} 只：等待：本次期权链未评估或数据不可用。\n')
+        if not any((c.get('options_decision') or {}).get('candidates') for c in assessed):
+            lines.append('本次无通过统一评分的合约候选。观察名单方案与报价阶梯见期权附录。\n')
+        return '\n'.join(lines)
 
     tickets = action_tickets(cards)
     sell_calls = [c for c in tickets if c["options_action"] == "sell_call"]
