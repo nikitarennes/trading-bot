@@ -42,7 +42,6 @@ from datetime import datetime, timedelta
 
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _SCRIPT_DIR)
-sys.path.insert(0, os.path.join(_SCRIPT_DIR, "core"))  # private algorithm package
 
 
 def _authorize_live_trading():
@@ -730,7 +729,13 @@ if __name__ == "__main__":
     import main as analysis_main
     from configs import UNIVERSE
 
-    tickers = [t.strip().upper() for t in args.tickers.split(",")] if args.tickers else sorted(set(UNIVERSE.keys()))
+    tickers = ([t.strip().upper() for t in args.tickers.split(",") if t.strip()]
+               if args.tickers else sorted(UNIVERSE))
+    if len(set(tickers)) < 2:
+        parser.error(
+            "At least two tickers are required for portfolio allocation; "
+            "provide --tickers SYMBOL1,SYMBOL2 or configure TRADING_TICKERS."
+        )
 
     print("Running analysis...")
     results, macro_result = analysis_main.run_analysis(tickers, skip_news=False, skip_alpha=False)

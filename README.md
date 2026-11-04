@@ -2,7 +2,7 @@
 
 # 🤖 Multi-Agent Quantitative Trading System
 
-**A macro buy-and-hold engine that orchestrates a team of specialized analysis agents — technical, trend, macro, sentiment, and quantitative alpha — into a single 0–100 conviction score, then sizes and executes a live portfolio through Alpaca.**
+**A macro buy-and-hold engine that combines technical, trend, macro, and available news-sentiment analysis into a 0–100 score, then constructs a momentum portfolio and can execute paper trades through Alpaca.**
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![Broker](https://img.shields.io/badge/broker-Alpaca-yellow)
@@ -47,7 +47,7 @@ Per-calendar-year, point-in-time backtest with **T+1 execution** and **5 bps/sid
 
 ## 🧠 Multi-Agent Architecture
 
-The score for every stock is produced by a panel of independent analysis agents, each looking at the market through a different lens, then fused by a weighted scorer:
+The score for every stock is composed from the available public analyzers:
 
 ```
                          ┌─────────────────────────────┐
@@ -58,17 +58,15 @@ The score for every stock is produced by a panel of independent analysis agents,
         ┌───────────────────────────────────────────────────────────────┐
         │                     ANALYSIS AGENTS                            │
         ├───────────────┬───────────────┬──────────────┬────────────────┤
-        │ 📐 Technical  │ 📊 Trend      │ 🌍 Macro     │ 📰 Sentiment   │
-        │ SMA/RSI/MACD  │ rel-strength  │ regime &     │ news headline  │
-        │ ADX/Boll/OBV  │ vs SPY        │ risk on/off  │ lexicon+decay  │
-        │   (35%)       │   (30%)       │              │   (15%)        │
-        ├───────────────┴───────────────┴──────────────┴────────────────┤
-        │           🔒 Quantitative Alpha — 30 factors (20%)             │  ← core/ (private)
+        │ 📐 Technical  │ 📊 Trend      │ 🌍 Macro context │ 📰 Sentiment │
+        │ SMA/RSI/MACD  │ rel-strength  │ blended into    │ news headline│
+        │ ADX/Boll/OBV  │ vs SPY        │ trend analysis  │ lexicon+decay│
+        │   (43.75%)    │   (37.5%)     │                 │ (18.75%*)    │
         └───────────────────────────────┬───────────────────────────────┘
                                         ▼
                          ┌─────────────────────────────┐
-                         │   🔒 SCORER  →  0–100 score │  confidence- & regime-adjusted
-                         │   🔒 STRATEGY → target wts  │  top-10 by 6-1 momentum, 25% cap, 40% vol target
+                         │ Public score composer → 0–100│  available analyzer outputs only
+                         │ Public strategy → target wts │  top-10 by 6-1 momentum, 25% cap, 40% vol target
                          └──────────────┬──────────────┘
                                         ▼
                          ┌─────────────────────────────┐
@@ -79,7 +77,7 @@ The score for every stock is produced by a panel of independent analysis agents,
 
 **Plus a layer of Claude research agents** (in [`.claude/skills/`](.claude/skills/)) that enrich the macro view — `market-news-analyst`, `scenario-analyzer`, `market-environment-analysis`, `earnings-calendar`, and `economic-calendar-fetcher`.
 
-> 🔒 The proprietary signal engine — the **30 alpha factors, the scorer, and the position-sizing strategy** — lives in a private `core/` package that is **not** included in this repository. Everything else (the harness, analyzers, backtester, executor) is open.
+> The historical 30-factor Alpha engine is not included. Current scoring and portfolio construction are implemented in public `main.py` and `strategy.py`, without a private `core/` dependency. `*` Sentiment is omitted when news is skipped or unavailable, and the remaining component weights are renormalized.
 
 ---
 
@@ -87,12 +85,11 @@ The score for every stock is produced by a panel of independent analysis agents,
 
 | Agent | Weight | Signals |
 |-------|:------:|---------|
-| 📐 Technical | 35% | SMA 50/200, RSI, MACD, ADX, Bollinger, OBV |
-| 📊 Trend | 30% | Relative strength vs SPY, market regime |
-| 🔒 Alpha | 20% | 30 quantitative factors (WorldQuant-style) |
-| 📰 Sentiment | 15% | News headline analysis with recency decay |
+| 📐 Technical | 43.75% | SMA 50/200, RSI, MACD, ADX, Bollinger, OBV |
+| 📊 Trend | 37.5% | Relative strength vs SPY, market regime and macro context |
+| 📰 Sentiment | 18.75%* | News headline analysis with recency decay |
 
-Scores are confidence-adjusted and regime-aware (conservative in bear markets, a slight boost in bull markets).
+The weights proportionally redistribute the former technical/trend/sentiment baseline after removing private Alpha. If sentiment is absent, technical and trend weights normalize to 53.85% and 46.15%. Analyzer confidence is reported separately and does not change the score.
 
 **Portfolio construction (Strategy V7, 2026-09-28):** the live book is the top-10 by **6-month momentum skipping the latest month** (held names survive to rank 20), ladder-weighted with a 25% cap, a 0–20% macro cash reserve, and a **40% portfolio vol target** (exposure = min(1, 0.40 / 20-day realized vol of the target basket), never leveraged). The previous 1m/3m signal is one env var away (`MOM_MODE=legacy`); `VOL_TARGET=0` disables targeting. Evidence, including a point-in-time S&P 500 check, is in [docs/BACKTEST_RESULTS.md](docs/BACKTEST_RESULTS.md).
 
@@ -108,20 +105,20 @@ Scores are confidence-adjusted and regime-aware (conservative in bear markets, a
 
 ## 🚀 Quick Start
 
-> The private `core/` package is required to run end-to-end. Without it the harness imports the scorer/strategy/alpha modules from `core/` and will fail — by design, the alpha is not published.
+> No private `core/` package is required. Set `TRADING_TICKERS` in the environment or pass `--tickers` explicitly; the repository intentionally does not guess a default trading universe.
 
 ```bash
 python -m venv .venv_trading && source .venv_trading/bin/activate
 pip install -r requirements.txt
-cp .env.example .env            # then fill in your Alpaca keys
+export TRADING_TICKERS=AAPL,NVDA,MSFT
 
-# Analyze the full universe (161 US equities / ETFs)
-python main.py
+# Analyze explicitly selected stocks (or set TRADING_TICKERS first)
+python main.py --tickers AAPL,NVDA,MSFT
 
 # Specific tickers, top 10, skip news for speed
 python main.py --tickers AAPL,NVDA,MSFT --top 10 --quick
 
-# Daily report + paper trade
+# Daily report + paper trade (paper is the default)
 python daily_report.py --trade
 
 # Backtest vs SPY (a single recent year, verbose)
@@ -133,10 +130,10 @@ python backtest_years.py
 ### CLI options (`main.py`)
 
 ```
---tickers AAPL,MSFT    Analyze specific stocks (default: full universe)
+--tickers AAPL,MSFT    Analyze specific stocks
 --top N                Show top N results only
 --quick                Skip news sentiment (faster)
---no-alpha             Skip alpha factor computation (faster)
+--no-alpha             Deprecated compatibility flag; Alpha is disabled
 --output-dir DIR       Report output directory (default: reports/)
 --no-report            Console output only, skip report file
 ```
@@ -150,6 +147,8 @@ main.py  daily_report.py        Entry points (CLI + daily runner)
 data_fetcher.py                 Prices, news, benchmarks (yfinance)
 technical_analyzer.py           Trend / momentum / volume / volatility
 trend_analyzer.py               Relative strength vs SPY, market regime
+strategy.py                     Public momentum ranking, allocation, and vol targeting
+configs.py                      Public weights, core watch, optional TRADING_TICKERS universe
 macro_analyzer.py               Market regime, 1w/1m/6m stance, rates tape
 macro_regime.py                 Regime Desk: 宏观回撤与加仓时机 — breadth, rates/credit/vol, analog stats, entry ladder, reduce triggers + Claude synthesis (web search)
 macro_events.py                 Hand-maintained catalyst calendar for the Regime Desk (warns when it runs low)
@@ -171,9 +170,9 @@ chip_layout.py                  半导体加仓: first-batch zones + 12-name add
 optics_layout.py                光学互联 (COHR/LITE/AAOI/CRDO/MRVL/GLW/LYTE)
 power_layout.py                 电力加仓 (GEV 920/865, BE 232/200, PWR 600/560)
 alpaca_trader.py                Paper/live execution via Alpaca
+scripts/run_paper_rebalance.py  Paper-only scheduled rebalance entry point
 backtest_strategy.py            Strategy vs buy-and-hold (single window)
 backtest_years.py               Per-year sweep vs SPY & Nasdaq
-core/             🔒 PRIVATE    custom_alphas · scorer · strategy · configs
 docs/                           STRATEGY · BACKTEST_RESULTS · PAPER_TRADING
 scripts/                        fetch_paper_performance.py
 .claude/skills/                 Claude research agents
@@ -181,20 +180,23 @@ scripts/                        fetch_paper_performance.py
 
 ---
 
-## ⚙️ Deployment
+## ⚙️ Paper Trading Deployment
 
-- **Production:** GCP Cloud Run job `daily-report` runs `daily_report.py --trade` at **7:00 AM Pacific** (10:00 AM ET) on trading days (Alpaca paper). Secrets are runtime env vars, not baked into the image (`ALPACA_*`, `REPORT_EMAIL_*`, `ANTHROPIC_API_KEY`, `CC_WATCH`; strategy knobs `MOM_MODE`, `VOL_TARGET`, `VOL_LOOKBACK`, `REBALANCE_INTERVAL_DAYS` are optional and default to the V7 settings); the job runs on 2 vCPU / 4 GiB with a 60-minute timeout. The 7 AM run uses the previous completed US session.
-- **After every `gcloud run jobs deploy`,** re-check the env vars with `gcloud run jobs describe daily-report --region us-central1` — a redeploy has silently dropped them before.
-- **Local daily agent (macOS):** `./setup_daily.sh install` renders a git-ignored launchd plist from `*.plist.template` and schedules a report-only run (no `--trade`) so it does not double-fill the paper account.
-- **Container:** `docker build -t trading-bot .` — secrets are injected at runtime (`--env`).
+- **GitHub Actions** runs the paper-only `scripts/run_paper_rebalance.py` workflow every Monday at 13:15 UTC and supports manual dry runs. It builds the Docker image from the repository; no GCP or always-on Codespace is required. GitHub scheduled workflows use UTC and can start late, so this is not an exact-time execution service.
+- Before enabling automation, disable any existing Cloud Scheduler trigger for the GCP `daily-report` job to prevent duplicate orders. The workflow refuses live trading by construction: it always calls the Alpaca paper client.
+- In repository **Settings → Secrets and variables → Actions**, add `ALPACA_API_KEY` and `ALPACA_SECRET_KEY` using **paper-account credentials only**. Set the repository variable `PAPER_TRADING_ENABLED` to `true` only after confirming the old GCP schedule is disabled. The workflow defaults to `WFRD,WING,LPX,BROS,SAIA,APPF`; optionally override this with the `TRADING_TICKERS` repository variable.
+- The default rebalance interval is five trading days. The strategy also applies its weight-drift band, gradual rebalance, cash reserve, and open-order guard. The six symbols are the candidate universe, not a promise that all six will be held.
+- A GitHub Actions schedule only runs after the workflow is on the default branch and Actions are enabled. Verify the first scheduled run and paper-account orders in the Actions tab. Do not paste credentials into workflow files or logs.
+- **Local/manual:** run `python scripts/run_paper_rebalance.py --dry-run` first, then omit `--dry-run` only when intentionally submitting paper orders. Set credentials in `.env`; this entry point has no live-account option.
+- **Container:** `docker build -t trading-bot-paper .`; pass paper credentials and `TRADING_TICKERS` at runtime. `.env` is excluded from the build context.
 
 ---
 
 ## 🔐 Security & Privacy
 
-- Secrets live only in `.env` (git-ignored). No API keys, passwords, or personal emails are tracked — see `.env.example` for the required variables.
+- Secrets live only in `.env` (git-ignored). No API keys, passwords, or personal emails are tracked.
 - The launchd plist is rendered locally and git-ignored; only the placeholder `*.plist.template` is tracked.
-- The proprietary `core/` algorithm is git-ignored and absent from this public repo.
+- Legacy private Alpha/scoring code is not included; current scoring and portfolio sizing use the public analyzer and strategy modules.
 
 ---
 
@@ -204,4 +206,4 @@ This project is for **research and educational purposes only**. It is not invest
 
 ## 📄 License
 
-[MIT](LICENSE) for the published harness. The private `core/` signal engine is not licensed for use or distribution.
+[MIT](LICENSE) for the published harness. Legacy private Alpha/scoring code is not included in this repository.

@@ -1,6 +1,7 @@
 .venv/
 .venv_new/
 .venv_trading/
+.env
 .idea/
 __pycache__/
 *.pyc

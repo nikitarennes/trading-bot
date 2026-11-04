@@ -1,0 +1,69 @@
+name: Weekly Alpaca paper rebalance
+
+on:
+  schedule:
+    - cron: "15 13 * * 1"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Calculate trades without submitting paper orders"
+        type: boolean
+        required: true
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: paper-rebalance
+  cancel-in-progress: false
+
+jobs:
+  rebalance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      TRADING_TICKERS: ${{ vars.TRADING_TICKERS || 'WFRD,WING,LPX,BROS,SAIA,APPF' }}
+      PAPER_TRADING_ENABLED: ${{ vars.PAPER_TRADING_ENABLED }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      REBALANCE_INTERVAL_DAYS: "5"
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Require explicit paper-trading enablement
+        run: |
+          if [ "$DRY_RUN" != "true" ] && [ "$PAPER_TRADING_ENABLED" != "true" ]; then
+            echo "Paper orders are disabled. Set the repository variable PAPER_TRADING_ENABLED=true only after disabling any old GCP schedule."
+            exit 1
+          fi
+          if [ -z "$ALPACA_API_KEY" ] || [ -z "$ALPACA_SECRET_KEY" ]; then
+            echo "Missing ALPACA_API_KEY or ALPACA_SECRET_KEY repository secrets."
+            exit 1
+          fi
+
+      - name: Build paper-only image
+        run: docker build --tag trading-bot-paper:${GITHUB_SHA} .
+
+      - name: Run paper rebalance
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            docker run --rm \
+              --env ALPACA_API_KEY \
+              --env ALPACA_SECRET_KEY \
+              --env TRADING_TICKERS \
+              --env REBALANCE_INTERVAL_DAYS \
+              trading-bot-paper:${GITHUB_SHA} --dry-run
+          else
+            docker run --rm \
+              --env ALPACA_API_KEY \
+              --env ALPACA_SECRET_KEY \
+              --env TRADING_TICKERS \
+              --env REBALANCE_INTERVAL_DAYS \
+              trading-bot-paper:${GITHUB_SHA}
+          fi

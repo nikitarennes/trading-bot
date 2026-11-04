@@ -1,15 +1,164 @@
-"""
-Centralized data fetching for price data, news, and benchmarks.
-
-Handles all yfinance quirks (MultiIndex columns, empty data, etc.) so that
-downstream modules receive clean DataFrames.
-"""
+"""Centralized market-data fetching with an FMP-first path for candidates."""
+import os
+import re
+import requests
 import yfinance as yf
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 import market_bars
+
+_FMP_BASE_URL = "https://financialmodelingprep.com/stable"
+_REQUEST_TIMEOUT = 20
+
+
+def _fmp_api_key():
+    key = os.environ.get("FMP_API_KEY", "").strip()
+    if key:
+        return key
+    env_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if os.path.exists(env_file):
+        with open(env_file, encoding="utf-8") as file:
+            for line in file:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    name, value = line.split("=", 1)
+                    if name.strip() == "FMP_API_KEY":
+                        return value.strip()
+    return ""
+
+
+def _period_start(period):
+    match = re.fullmatch(r"(\d+)(d|mo|y)", str(period).strip().lower())
+    if not match:
+        raise ValueError(f"Unsupported daily history period: {period}")
+    amount = int(match.group(1))
+    unit = match.group(2)
+    if unit == "d":
+        return date.today() - timedelta(days=amount)
+    if unit == "mo":
+        return (pd.Timestamp.today().normalize() - pd.DateOffset(months=amount)).date()
+    return (pd.Timestamp.today().normalize() - pd.DateOffset(years=amount)).date()
+
+
+def _fetch_fmp_price_data(ticker, period="2y", interval="1d"):
+    """Fetch and normalize daily OHLCV bars from FMP, or return None."""
+    api_key = _fmp_api_key()
+    if not api_key or interval != "1d":
+        return None
+
+    params = {
+        "symbol": ticker,
+        "from": _period_start(period).isoformat(),
+        "to": date.today().isoformat(),
+        "apikey": api_key,
+    }
+    try:
+        response = requests.get(
+            f"{_FMP_BASE_URL}/historical-price-eod/full",
+            params=params,
+            timeout=_REQUEST_TIMEOUT,
+        )
+        response.raise_for_status()
+        payload = response.json()
+    except (requests.RequestException, ValueError) as exc:
+        print(f"  {ticker}: FMP price history unavailable ({type(exc).__name__}); trying yfinance")
+        return None
+
+    if not isinstance(payload, list) or not payload:
+        print(f"  {ticker}: FMP returned no daily bars; trying yfinance")
+        return None
+
+    frame = pd.DataFrame(payload)
+    if not {"date", "open", "high", "low", "close", "volume"}.issubset(frame.columns):
+        print(f"  {ticker}: FMP daily bars have an unexpected schema; trying yfinance")
+        return None
+    frame["Date"] = pd.to_datetime(frame["date"], errors="coerce")
+    frame = frame.set_index("Date").rename(columns={
+        "open": "Open",
+        "high": "High",
+        "low": "Low",
+        "close": "Close",
+        "volume": "Volume",
+    })
+    frame = frame[["Open", "High", "Low", "Close", "Volume"]].sort_index()
+    frame = frame.apply(pd.to_numeric, errors="coerce")
+    frame.dropna(subset=["Close"], inplace=True)
+    frame = market_bars.drop_unfinished_bars(frame)
+    if len(frame) < 50:
+        print(f"  {ticker}: FMP returned fewer than 50 daily bars; trying yfinance")
+        return None
+    return frame
+
+
+def _fetch_fmp_stock_info(ticker):
+    """Fetch the company profile fields used by analysis from FMP."""
+    api_key = _fmp_api_key()
+    if not api_key:
+        return None
+    try:
+        response = requests.get(
+            f"{_FMP_BASE_URL}/profile",
+            params={"symbol": ticker, "apikey": api_key},
+            timeout=_REQUEST_TIMEOUT,
+        )
+        response.raise_for_status()
+        payload = response.json()
+    except (requests.RequestException, ValueError) as exc:
+        print(f"  {ticker}: FMP company profile unavailable ({type(exc).__name__}); trying yfinance")
+        return None
+    if not isinstance(payload, list) or not payload:
+        print(f"  {ticker}: FMP returned no company profile; trying yfinance")
+        return None
+
+    profile = payload[0]
+    return {
+        "sector": profile.get("sector") or "Unknown",
+        "industry": profile.get("industry") or "Unknown",
+        "market_cap": profile.get("marketCap") or 0,
+        "name": profile.get("companyName") or ticker,
+        "pe_ratio": None,
+        "forward_pe": None,
+        "dividend_yield": None,
+        "beta": profile.get("beta"),
+    }
+
+
+def fetch_candidate_data(candidates, period="2y"):
+    """Fetch selected Discovery candidates, preferring FMP then yfinance.
+
+    Returns ``{ticker: {price_data, info, price_source, info_source}}``.
+    """
+    results = {}
+    for candidate in candidates:
+        ticker = (
+            candidate.get("ticker", "")
+            if isinstance(candidate, dict) else str(candidate)
+        )
+        ticker = ticker.strip().upper()
+        if not ticker:
+            continue
+
+        price_data = _fetch_fmp_price_data(ticker, period=period)
+        price_source = "fmp"
+        if price_data is None:
+            price_data = fetch_price_data(ticker, period=period, interval="1d")
+            price_source = "yfinance" if price_data is not None else None
+
+        info = _fetch_fmp_stock_info(ticker)
+        info_source = "fmp"
+        if info is None:
+            info = fetch_stock_info(ticker)
+            info_source = "yfinance" if info.get("sector") != "Unknown" else None
+
+        results[ticker] = {
+            "price_data": price_data,
+            "info": info,
+            "price_source": price_source,
+            "info_source": info_source,
+        }
+    return results
 
 
 def fetch_price_data(ticker, period="2y", interval="1d"):

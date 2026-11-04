@@ -2,7 +2,7 @@
 
 ## Philosophy
 
-Macro buy-and-hold strategy designed for **weeks to months** holding periods. The engine scores each stock 0-100 across four dimensions, producing a recommendation from Strong Buy to Avoid.
+Macro buy-and-hold strategy designed for **weeks to months** holding periods. The engine scores each stock 0-100 using the public technical, trend, and sentiment analyzers, producing a recommendation from Strong Buy to Avoid. The private alpha/scoring engine is not part of this composite.
 
 ## Score → Recommendation
 
@@ -18,14 +18,17 @@ Macro buy-and-hold strategy designed for **weeks to months** holding periods. Th
 
 | Dimension | Weight | Source | Description |
 |-----------|--------|--------|-------------|
-| Technical | 35% | `technical_analyzer.py` | Price-based indicators: trend, momentum, volume, volatility |
-| Trend | 30% | `trend_analyzer.py` | Macro positioning: regime, relative strength vs SPY, VIX, Claude synthesis |
-| Alpha | 20% | `custom_alphas.py` | 30 quantitative alpha factors |
-| Sentiment | 15% | `sentiment_analyzer.py` | Claude LLM news analysis with keyword fallback |
+| Technical | 43.75% | `technical_analyzer.py` | Price-based indicators: trend, momentum, volume, volatility |
+| Trend | 37.5% | `trend_analyzer.py` | Macro positioning: regime, relative strength vs SPY, VIX, macro context |
+| Sentiment | 18.75% | `sentiment_analyzer.py` | Claude LLM news analysis with keyword fallback |
 
-## Component Details
+These are the proportional redistribution of the former 35% / 30% / 15% analyzer weights after removing Alpha. If sentiment is unavailable or skipped, the technical and trend weights are renormalized over the available 65% baseline (53.85% / 46.15%). Confidence is reported separately and does not secretly modify the composite score. Macro context is already blended into Trend when provided, and is not counted again as a separate stock-score component.
 
-### Technical (35%)
+Portfolio sizing is implemented in the public [`strategy.py`](../strategy.py) module. It ranks the top 10 by 6-1 momentum (with the documented legacy fallback), keeps eligible held names through rank 20, uses a 95% momentum-rank / 5% score-squared ladder, and caps each position at 25%. The base macro cash reserve is `clamp((70 - macro_score) / 200, 0, 0.20)`; absent macro data uses a neutral score of 50. Portfolio volatility targeting can only reduce invested exposure, never lever it.
+
+## Analyzer Details
+
+### Technical (43.75% when all analyzers are available)
 
 Uses 2-year daily + 1-year hourly data.
 
@@ -37,13 +40,13 @@ Uses 2-year daily + 1-year hourly data.
 | Support/Resistance | 15% | Position relative to 52-week high/low |
 | Volatility | 10% | ATR-14, Bollinger Band position. Blended 70% daily + 30% hourly |
 
-### Trend (30%)
+### Trend (37.5% when all analyzers are available)
 
 Macro-level analysis with VIX, Claude AI synthesis, and comprehensive macro indicators.
 
 | Sub-component | Weight | Key Signals |
 |---------------|--------|-------------|
-| Relative Strength | 25% | Alpha vs SPY at 1m/3m/6m, RS trend direction |
+| Relative Strength | 25% | Relative performance vs SPY at 1m/3m/6m, RS trend direction |
 | Market Regime | 25% | Bull/bear/range via price vs 200-SMA + SMA slope |
 | VIX | 20% | Current level, 5-day trend, vs 50-day average, term structure |
 | Momentum | 20% | Returns at 1m/3m/6m/12m, multi-timeframe consistency bonus |
@@ -57,16 +60,7 @@ Claude's macro assessment incorporates:
 - **Economic Growth**: GDP, ISM PMI, unemployment, consumer spending
 - **Interest Rates**: Fed Funds Rate, 10Y Treasury, real rates (TIPS), rate direction impact
 
-### Alpha (20%)
-
-30 quantitative factors computed from price/volume data:
-- Momentum factors (short-term, medium-term, acceleration)
-- Mean-reversion factors (distance from moving averages, RSI extremes)
-- Volume factors (volume-price correlation, OBV momentum)
-
-Each factor normalized 0-1, final alpha score = mean of all valid factors.
-
-### Sentiment (15%)
+### Sentiment (18.75% when available)
 
 **Primary (Claude LLM):** Sends up to 20 news headlines with ticker, sector, and price context to Claude Haiku. Also factors in market-wide sentiment indicators:
 - **VIX** (fear/greed gauge)
@@ -81,17 +75,6 @@ Returns:
 - Written reasoning with broader market sentiment context
 
 **Fallback (keyword-based):** Recency-weighted lexicon matching against curated bullish/bearish financial phrases.
-
-## Score Modifiers
-
-Applied in `scorer.py` after the weighted combination:
-
-| Modifier | Effect |
-|----------|--------|
-| Conviction bonus | +12% when all major components agree bullish; -12% when all bearish |
-| Regime adjustment | Bear market pulls scores toward neutral (x0.85); bull market boosts strong signals (x1.08) |
-| Confidence weighting | Low-confidence signals pulled toward 0.5 (neutral) using quadratic pull |
-| Weight redistribution | If sentiment or alpha unavailable, their weight redistributes proportionally |
 
 ## Data Sources
 
@@ -112,16 +95,15 @@ source .venv_trading/bin/activate
 python main.py                          # All stocks
 python main.py --tickers AAPL,NVDA      # Specific tickers
 python main.py --quick                  # Skip news (faster)
-python main.py --quick --no-alpha       # Fastest mode
 ```
 
-## Automated Daily Reports
+## Scheduled Paper Rebalance
 
-- **Cloud Run Job** on GCP triggers at 7:00 AM Pacific (10:00 AM ET), Mon-Fri. Because the US session is already open, `market_bars.drop_unfinished_bars` scores the previous completed close, not the in-progress day. Paper trades run with that same signal.
-- Price history is filtered by `market_bars.drop_unfinished_bars`: a session that has not closed (before 16:00 ET) never reaches the analysis, so a run during market hours scores the previous close instead of the opening print. The report header shows `数据截至`, the newest completed session used.
-- Runs full analysis, generates report, emails HTML-formatted results
-- No idle cost — container only runs during the ~7 min analysis
-- Local backup via macOS launchd (runs when laptop wakes up)
+- `.github/workflows/paper-rebalance.yml` builds the paper-only Docker image and runs it every Monday at 13:15 UTC. GitHub Actions uses UTC and may delay scheduled starts; the job analyzes the configured universe and submits paper orders only when `PAPER_TRADING_ENABLED=true`.
+- The default universe is `WFRD,WING,LPX,BROS,SAIA,APPF`, overridable with the repository variable `TRADING_TICKERS`. `scripts/run_paper_rebalance.py` skips news, requires analysis data for every configured symbol, and calls the Alpaca client with `paper=True`; it does not generate reports, email, discover stocks, or expose a live-trading option.
+- Store paper credentials as GitHub Actions secrets, never in the image. Disable any previous GCP Cloud Scheduler trigger before setting `PAPER_TRADING_ENABLED=true` to prevent duplicate execution.
+- The strategy uses completed daily bars, so an early run uses the latest completed session. Rebalance cadence defaults to 5 trading days; the existing open-order, cash-reserve, minimum-trade, and drift-band guards still apply.
+- GitHub Actions does not require an always-on Codespace. A Codespace can still be used for manual dry runs, but it may stop when idle.
 
 ## Strategy V7 — momentum window & vol targeting (2026-09-28)
 

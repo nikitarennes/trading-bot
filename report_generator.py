@@ -276,22 +276,38 @@ def _build_report(ranked, macro_result=None, discovery_result=None, options_rese
         sr, ind = r['score_result'], r.get('indicators') or {}
         components = sr.get('components') or {}
         breakdown = ' / '.join(_fmt_num((components.get(k) or {}).get('score'))
-                               for k in ('technical', 'trend', 'alpha', 'sentiment'))
+                               for k in ('technical', 'trend', 'sentiment'))
         rows.append([i, r['ticker'], f"{sr['score']:.1f}", sr['recommendation'],
                      _fmt_money(ind.get('price')), _fmt_pct(ind.get('change_1m')),
                      _fmt_pct(ind.get('change_3m')), breakdown])
-    sections.append("## 附录 — 评分总表与研究\n\n评分排序是相对比较，后列不等于应卖出。分项顺序：技术 / 趋势 / Alpha / 情绪。\n\n" +
+    sections.append("## 附录 — 评分总表与研究\n\n评分排序是相对比较，后列不等于应卖出。分项顺序：技术 / 趋势 / 情绪。\n\n" +
                     table(['排名', '股票', '评分', '评级', '价格', '1月', '3月', '评分分项'], rows) +
                     "\n" + subsection(_build_score_research(ranked)))
-    import strategy
-    mom_desc = '6 个月动量，跳过最近 1 个月' if strategy.MOM_MODE == '6_1' else '70% 三月 + 30% 一月动量'
+    try:
+        import strategy
+    except ModuleNotFoundError as exc:
+        if exc.name != "strategy":
+            raise
+        strategy = None
+    if strategy:
+        mom_desc = ('6 个月动量，跳过最近 1 个月' if strategy.MOM_MODE == '6_1'
+                    else '70% 三月 + 30% 一月动量')
+        allocation_method = (
+            f"组合按 {mom_desc} 选前 {strategy.TOP_N} 只，95% 动量排名 + 5% 评分权重；"
+            f"单股上限 {strategy.MAX_POS:g}%，宏观现金预留 0–20%，"
+            f"组合年化波动目标 {strategy.VOL_TARGET*100:g}%。"
+        )
+    else:
+        allocation_method = (
+            "可选的私有组合策略模块未安装，因此不生成建议配置；"
+            "这不影响下方仅由公开分析器生成的个股评分。"
+        )
     sections.append(f"""## 附录 — 方法与口径
 
-综合评分：技术 35% + 趋势 30% + Alpha 20% + 新闻情绪 15%，按置信度与市场环境调整。
+综合评分仅使用技术、趋势与新闻情绪分析器；情绪数据缺失时，剩余分析器权重按比例归一。
 评级：75+ Strong Buy；60–74 Buy；45–59 Hold；30–44 Reduce；低于 30 Avoid。
 
-组合按 {mom_desc} 选前 {strategy.TOP_N} 只，95% 动量排名 + 5% 评分权重；
-单股上限 {strategy.MAX_POS:g}%，宏观现金预留 0–20%，组合年化波动目标 {strategy.VOL_TARGET*100:g}%。
+{allocation_method}
 行情历史不足时，动量回退到三月/一月；波动控制结果见建议配置栏目。
 实盘另有持仓排名缓冲与交易检查；建议配置与现金入场计划使用不同资金口径。
 历史回测与限制见 docs/BACKTEST_RESULTS.md，候选研究分不改变评级或下单。
@@ -486,18 +502,21 @@ def _build_bottom_20(ranked):
 
     # Score breakdown for bottom 20
     section += "\n### Score Breakdown (Bottom 20)\n\n"
-    section += "| Ticker | Technical | Trend | Alpha | Sentiment | Final |\n"
-    section += "|--------|-----------|-------|-------|-----------|-------|\n"
+    section += "| Ticker | Technical | Trend | Sentiment | Final |\n"
+    section += "|--------|-----------|-------|-----------|-------|\n"
 
     for r in bottom:
         sr = r["score_result"]
-        c = sr["components"]
+        c = sr.get("components") or {}
+        def component_score(name):
+            value = (c.get(name) or {}).get("score")
+            return f"{value:.0f}" if isinstance(value, (int, float)) else "—"
+
         section += (
             f"| **{r['ticker']}** "
-            f"| {c['technical']['score']:.0f} "
-            f"| {c['trend']['score']:.0f} "
-            f"| {c['alpha']['score']:.0f} "
-            f"| {c['sentiment']['score']:.0f} "
+            f"| {component_score('technical')} "
+            f"| {component_score('trend')} "
+            f"| {component_score('sentiment')} "
             f"| **{sr['score']:.1f}** |\n"
         )
 
@@ -515,7 +534,16 @@ def _build_portfolio_weights(ranked, macro_result=None):
     - Stocks outside top 10 get 0% allocation
     - Max position cap: 25%
     """
-    import strategy
+    try:
+        import strategy
+    except ModuleNotFoundError as exc:
+        if exc.name != "strategy":
+            raise
+        return (
+            "\n---\n\n## Suggested Portfolio Allocation\n\n"
+            "Unavailable: the optional portfolio strategy module is not installed. "
+            "Analyzer-only stock scores are unaffected.\n"
+        )
 
     if not ranked or len(ranked) < 2:
         return ""
@@ -839,7 +867,7 @@ def _build_ai_semi_section(ranked):
             section += "- 该主题近 3 月震荡分化，建议聚焦评分与动量同时居前的龙头，回避落后标的。\n"
     section += (
         "- 子板块判定依据 `configs.py` 的细分行业字段；"
-        "评分综合技术、趋势、Alpha 与情绪四维度。仅供参考，非投资建议。\n"
+        "评分仅综合技术、趋势与情绪分析器。仅供参考，非投资建议。\n"
     )
 
     section += "\n---\n"

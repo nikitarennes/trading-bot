@@ -2,11 +2,9 @@
 """
 Stock Recommendation Engine - Macro Buy-and-Hold Strategy
 
-Comprehensive multi-factor analysis combining:
-- Technical analysis (trend, momentum, volume, volatility)
-- News sentiment analysis
-- Macro trend analysis (relative strength, market regime)
-- Quantitative alpha factors
+Composite scores use only the public technical, trend, and news-sentiment
+analyzers. Their baseline weights are proportionally normalized when a component
+is unavailable; private alpha/scoring modules are not used.
 
 Usage:
     python main.py                                    # Analyze all stocks
@@ -18,39 +16,142 @@ import os
 import market_bars
 import sys
 import argparse
+import math
 from datetime import datetime
 
-# Make the private algorithm package (core/) importable
+# Ensure imports resolve from this script's directory when launched elsewhere.
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _SCRIPT_DIR)
-sys.path.insert(0, os.path.join(_SCRIPT_DIR, "core"))
 
 import data_fetcher
 import technical_analyzer
 import sentiment_analyzer
 import trend_analyzer
-import scorer
 import report_generator
 import macro_analyzer
-from configs import UNIVERSE, ANALYZER_WEIGHTS
+from configs import ANALYZER_WEIGHTS, UNIVERSE
+
+
+def _validated_analyzer_output(name, result):
+    """Validate an analyzer's normalized score and confidence before composing."""
+    if result is None:
+        return None
+    try:
+        score = float(result["score"])
+        confidence = float(result["confidence"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError(f"{name} analyzer must provide numeric score and confidence") from exc
+    if not math.isfinite(score) or not (0 <= score <= 1):
+        raise ValueError(f"{name} analyzer score must be between 0 and 1")
+    if not math.isfinite(confidence) or not (0 <= confidence <= 1):
+        raise ValueError(f"{name} analyzer confidence must be between 0 and 1")
+    return score, confidence
+
+
+def _analyzer_output_available(name, result):
+    if result is None:
+        return False
+    if not isinstance(result, dict):
+        return True
+    if name == "sentiment" and result.get("num_articles") == 0:
+        return False
+    if (name in ("technical", "trend")
+            and result.get("confidence") == 0
+            and not result.get("components")):
+        return False
+    return True
+
+
+def compose_score(technical_result, trend_result, sentiment_result=None):
+    """Compose the analyzer-only score, reweighting only available analyzers."""
+    outputs = {
+        "technical": technical_result,
+        "trend": trend_result,
+        "sentiment": sentiment_result,
+    }
+    outputs = {
+        name: output for name, output in outputs.items()
+        if _analyzer_output_available(name, output)
+    }
+    validated = {
+        name: _validated_analyzer_output(name, output)
+        for name, output in outputs.items()
+        if output is not None
+    }
+    if not validated:
+        raise ValueError("At least one analyzer result is required to compose a score")
+
+    weight_total = sum(ANALYZER_WEIGHTS[name] for name in validated)
+    components = {}
+    score = 0.0
+    confidence = 0.0
+    for name, (raw_score, raw_confidence) in validated.items():
+        weight = ANALYZER_WEIGHTS[name] / weight_total
+        score += raw_score * weight
+        confidence += raw_confidence * weight
+        components[name] = {
+            "score": round(raw_score * 100, 1),
+            "raw_score": raw_score,
+            "confidence": raw_confidence,
+            "weight": round(weight, 4),
+            "details": outputs[name].get("components", {}),
+        }
+
+    score = round(score * 100, 1)
+    recommendation = (
+        "Strong Buy" if score >= 75 else
+        "Buy" if score >= 60 else
+        "Hold" if score >= 45 else
+        "Reduce" if score >= 30 else
+        "Avoid"
+    )
+    grade = (
+        "A" if score >= 80 else
+        "B+" if score >= 70 else
+        "B" if score >= 60 else
+        "C+" if score >= 50 else
+        "C" if score >= 40 else
+        "D" if score >= 30 else
+        "F"
+    )
+    reasoning = [
+        f"{name.title()}: {components[name]['score']:.1f}/100 "
+        f"({components[name]['weight']:.1%} of available analyzer weight)"
+        for name in components
+    ]
+    regime = (
+        (trend_result or {}).get("components", {})
+        .get("regime", {}).get("signals", {}).get("regime")
+    )
+    return {
+        "score": score,
+        "raw_score": round(score / 100, 4),
+        "confidence": round(confidence, 4),
+        "grade": grade,
+        "recommendation": recommendation,
+        "reasoning": reasoning,
+        "components": components,
+        "regime": regime or "-",
+        "score_version": "analyzer-composite-v1",
+    }
 
 
 def analyze_stock(ticker, price_data, benchmark_data, hourly_data=None,
                   news_data=None, alpha_score=None, sector=None,
                   macro_score=None):
     """
-    Run full multi-factor analysis on a single stock.
+    Run the public analyzers on a single stock and compose their results.
 
     Args:
         price_data: 2y daily OHLCV DataFrame.
         benchmark_data: SPY 2y daily OHLCV DataFrame.
         hourly_data: 1y hourly OHLCV DataFrame (optional, enhances technical signals).
         news_data: list of news items (optional).
-        alpha_score: float 0-1 from alpha factor analysis (optional).
+        alpha_score: Retained for call compatibility; not used in scoring.
         sector: stock sector string (optional, enhances sentiment analysis).
         macro_score: float 0-100 from macro_analyzer (optional, blended into trend).
 
-    Returns a score_result dict from scorer.score_stock().
+    Returns the analyzer-only score_result and technical analyzer result.
     """
     # Technical analysis (daily + hourly)
     tech_result = technical_analyzer.analyze(price_data, hourly_data=hourly_data)
@@ -65,41 +166,26 @@ def analyze_stock(ticker, price_data, benchmark_data, hourly_data=None,
         sent_result = sentiment_analyzer.analyze_sentiment(
             news_data, ticker=ticker, sector=sector, price_context=price_context)
     else:
-        sent_result = {"score": 0.5, "confidence": 0.0, "num_articles": 0,
-                       "num_bullish": 0, "num_bearish": 0, "headlines": []}
+        sent_result = None
 
     # Macro trend analysis (daily) — macro_score from macro_analyzer replaces per-stock Claude calls
     trend_result = trend_analyzer.analyze(price_data, benchmark_data, macro_score=macro_score)
 
-    import stock_signals
-    research_result = stock_signals.analyze(price_data, benchmark_data)
-
-    # Combine into final score
-    score_result = scorer.score_stock(
-        tech_result, sent_result, trend_result,
-        alpha_score=alpha_score,
-        weights=ANALYZER_WEIGHTS,
-        research_result=research_result,
-    )
+    score_result = compose_score(tech_result, trend_result, sent_result)
 
     # Attach sentiment and trend details for report generation
     score_result["sentiment_detail"] = {
-        "reasoning": sent_result.get("reasoning", ""),
-        "key_themes": sent_result.get("key_themes", []),
-        "risk_flags": sent_result.get("risk_flags", []),
-        "method": sent_result.get("method", "keyword"),
+        "reasoning": (sent_result or {}).get("reasoning", ""),
+        "key_themes": (sent_result or {}).get("key_themes", []),
+        "risk_flags": (sent_result or {}).get("risk_flags", []),
+        "method": (sent_result or {}).get("method", "unavailable"),
+        "num_articles": (sent_result or {}).get("num_articles", 0),
     }
     score_result["trend_detail"] = {
-        "claude_synthesis": trend_result.get("claude_synthesis", {}),
+        "claude_synthesis": (trend_result or {}).get("claude_synthesis", {}),
     }
 
     return score_result, tech_result
-
-
-def compute_alpha_score(price_data):
-    """Shared alpha normalization with the historical and allocation harness."""
-    import strategy
-    return strategy.compute_alpha_score(price_data)
 
 
 def _fetch_stock_data(ticker, skip_news=False):
@@ -136,7 +222,7 @@ def run_analysis(tickers, skip_news=False, skip_alpha=False):
     Args:
         tickers: list of ticker symbols
         skip_news: if True, skip news sentiment (faster)
-        skip_alpha: if True, skip alpha factor computation (faster)
+        skip_alpha: Retained for call compatibility; alpha scoring is disabled.
 
     Returns:
         tuple of (results_list, macro_result)
@@ -191,11 +277,6 @@ def run_analysis(tickers, skip_news=False, skip_alpha=False):
 
         print(f"\n[{i}/{total}] Analyzing {ticker}...")
 
-        # Compute alpha score
-        alpha_score = None
-        if not skip_alpha:
-            alpha_score = compute_alpha_score(price_data)
-
         # Run analysis — pass macro_score so trend_analyzer can blend macro context
         # without making a separate Claude API call per stock
         _macro_score = macro_result.get("score") if macro_result else None
@@ -203,7 +284,7 @@ def run_analysis(tickers, skip_news=False, skip_alpha=False):
             score_result, tech_result = analyze_stock(
                 ticker, price_data, benchmark_data,
                 hourly_data=hourly_data,
-                news_data=news_data, alpha_score=alpha_score,
+                news_data=news_data,
                 sector=info.get("sector", "Unknown"),
                 macro_score=_macro_score,
             )
@@ -232,10 +313,22 @@ def run_analysis(tickers, skip_news=False, skip_alpha=False):
         print(f"  Score: {sr['score']:.0f}/100 ({sr['grade']}) - {sr['recommendation']}")
         print(f"  Confidence: {sr['confidence']*100:.0f}% | Regime: {sr.get('regime', '-')}")
         comp = sr["components"]
-        print(f"  Tech: {comp['technical']['score']:.0f} | "
-              f"Trend: {comp['trend']['score']:.0f} | "
-              f"Alpha: {comp['alpha']['score']:.0f} | "
-              f"Sent: {comp['sentiment']['score']:.0f}")
+        component_labels = {
+            "technical": "Tech",
+            "trend": "Trend",
+            "sentiment": "Sentiment",
+        }
+        component_summary = []
+        for name, label in component_labels.items():
+            component = comp.get(name)
+            if component:
+                component_summary.append(
+                    f"{label}: {component['score']:.0f} "
+                    f"(weight {component['weight']:.1%})"
+                )
+            else:
+                component_summary.append(f"{label}: unavailable")
+        print("  " + " | ".join(component_summary))
 
     import stock_signals
     return stock_signals.add_peer_ranks(results), macro_result
@@ -259,7 +352,7 @@ def main():
     )
     parser.add_argument(
         "--no-alpha", action="store_true",
-        help="Skip alpha factor computation (faster)"
+        help="Deprecated: alpha scoring is disabled; kept for CLI compatibility"
     )
     parser.add_argument(
         "--output-dir", type=str, default="reports",
@@ -276,15 +369,17 @@ def main():
         tickers = [t.strip().upper() for t in args.tickers.split(",")]
     else:
         tickers = sorted(set(UNIVERSE.keys()))
+        if not tickers:
+            parser.error("No default universe is configured; provide --tickers SYMBOL[,SYMBOL...]")
 
     print("=" * 70)
     print("STOCK RECOMMENDATION ENGINE")
-    print("Strategy: Macro Buy-and-Hold (weeks+ holding)")
+    print("Scoring: Technical (43.75%) + Trend (37.5%) + Sentiment (18.75% when available)")
     print("=" * 70)
     print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     print(f"Stocks: {len(tickers)}")
     print(f"News: {'Enabled' if not args.quick else 'Disabled'}")
-    print(f"Alpha: {'Enabled' if not args.no_alpha else 'Disabled'}")
+    print("Alpha: Disabled (analyzer-only composite)")
     print("=" * 70)
 
     # Run analysis
