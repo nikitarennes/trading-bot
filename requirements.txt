@@ -1,0 +1,10 @@
+yfinance==1.7.0
+pandas==3.0.1
+numpy==2.2.6
+pandas-ta==0.4.71b0
+scipy==1.17.1
+beautifulsoup4==4.14.3
+requests==2.32.5
+anthropic==0.86.0
+alpaca-py==0.43.2
+markdown-it-py==4.2.0

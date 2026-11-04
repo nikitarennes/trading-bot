@@ -1,0 +1,241 @@
+# Trading Bot Strategy Overview
+
+## Philosophy
+
+Macro buy-and-hold strategy designed for **weeks to months** holding periods. The engine scores each stock 0-100 using the public technical, trend, and sentiment analyzers, producing a recommendation from Strong Buy to Avoid. The private alpha/scoring engine is not part of this composite.
+
+## Score → Recommendation
+
+| Score | Grade | Recommendation |
+|-------|-------|----------------|
+| 75+   | A     | Strong Buy     |
+| 60-74 | B/B+  | Buy            |
+| 45-59 | C/C+  | Hold           |
+| 30-44 | C/D   | Reduce         |
+| <30   | F     | Avoid          |
+
+## Top-Level Scoring
+
+| Dimension | Weight | Source | Description |
+|-----------|--------|--------|-------------|
+| Technical | 43.75% | `technical_analyzer.py` | Price-based indicators: trend, momentum, volume, volatility |
+| Trend | 37.5% | `trend_analyzer.py` | Macro positioning: regime, relative strength vs SPY, VIX, macro context |
+| Sentiment | 18.75% | `sentiment_analyzer.py` | Claude LLM news analysis with keyword fallback |
+
+These are the proportional redistribution of the former 35% / 30% / 15% analyzer weights after removing Alpha. If sentiment is unavailable or skipped, the technical and trend weights are renormalized over the available 65% baseline (53.85% / 46.15%). Confidence is reported separately and does not secretly modify the composite score. Macro context is already blended into Trend when provided, and is not counted again as a separate stock-score component.
+
+Portfolio sizing is implemented in the public [`strategy.py`](../strategy.py) module. It ranks the top 10 by 6-1 momentum (with the documented legacy fallback), keeps eligible held names through rank 20, uses a 95% momentum-rank / 5% score-squared ladder, and caps each position at 25%. The base macro cash reserve is `clamp((70 - macro_score) / 200, 0, 0.20)`; absent macro data uses a neutral score of 50. Portfolio volatility targeting can only reduce invested exposure, never lever it.
+
+## Analyzer Details
+
+### Technical (43.75% when all analyzers are available)
+
+Uses 2-year daily + 1-year hourly data.
+
+| Sub-component | Weight | Key Signals |
+|---------------|--------|-------------|
+| Trend | 35% | 50/200 SMA crossover (Golden/Death Cross), ADX trend strength |
+| Momentum | 25% | RSI-14, MACD 12/26/9, Rate of Change. Blended 60% daily + 40% hourly |
+| Volume | 15% | OBV trend, volume vs 20-day average. Blended 60% daily + 40% hourly |
+| Support/Resistance | 15% | Position relative to 52-week high/low |
+| Volatility | 10% | ATR-14, Bollinger Band position. Blended 70% daily + 30% hourly |
+
+### Trend (37.5% when all analyzers are available)
+
+Macro-level analysis with VIX, Claude AI synthesis, and comprehensive macro indicators.
+
+| Sub-component | Weight | Key Signals |
+|---------------|--------|-------------|
+| Relative Strength | 25% | Relative performance vs SPY at 1m/3m/6m, RS trend direction |
+| Market Regime | 25% | Bull/bear/range via price vs 200-SMA + SMA slope |
+| VIX | 20% | Current level, 5-day trend, vs 50-day average, term structure |
+| Momentum | 20% | Returns at 1m/3m/6m/12m, multi-timeframe consistency bonus |
+| Breadth | 10% | Up-day percentage, rolling 20-day new highs |
+
+**Claude synthesis** blends 30% with the quantitative score above (final = 70% quant + 30% Claude macro assessment).
+
+Claude's macro assessment incorporates:
+- **Geopolitical & Tail Risks**: Wars, oil spikes, banking crises, credit events, trade wars
+- **Liquidity Conditions**: Fed balance sheet (QE/QT), reverse repo, bank reserves, financial conditions
+- **Economic Growth**: GDP, ISM PMI, unemployment, consumer spending
+- **Interest Rates**: Fed Funds Rate, 10Y Treasury, real rates (TIPS), rate direction impact
+
+### Sentiment (18.75% when available)
+
+**Primary (Claude LLM):** Sends up to 20 news headlines with ticker, sector, and price context to Claude Haiku. Also factors in market-wide sentiment indicators:
+- **VIX** (fear/greed gauge)
+- **AAII Sentiment Survey** (retail investor positioning, contrarian signal at extremes)
+- **Put/Call Ratio** (options market hedging vs speculation)
+- **CNN Fear & Greed Index** (composite market sentiment)
+
+Returns:
+- Sentiment score (0-1)
+- Confidence level
+- Key themes and risk flags (including market-wide sentiment context)
+- Written reasoning with broader market sentiment context
+
+**Fallback (keyword-based):** Recency-weighted lexicon matching against curated bullish/bearish financial phrases.
+
+## Data Sources
+
+| Data | Source | Period |
+|------|--------|--------|
+| Price (daily) | yfinance | 2 years |
+| Price (hourly) | yfinance | 1 year |
+| News headlines | yfinance | Latest ~10-30 articles |
+| Benchmark (SPY) | yfinance | 2 years |
+| VIX | yfinance (^VIX) | 1 year |
+| Sentiment AI | Anthropic Claude Haiku | Per-stock analysis |
+| Trend AI | Anthropic Claude Haiku | Per-stock synthesis |
+
+## Running
+
+```bash
+source .venv_trading/bin/activate
+python main.py                          # All stocks
+python main.py --tickers AAPL,NVDA      # Specific tickers
+python main.py --quick                  # Skip news (faster)
+```
+
+## Scheduled Paper Rebalance
+
+- `.github/workflows/paper-rebalance.yml` builds the paper-only Docker image and runs every Monday at 13:15 UTC. GitHub Actions uses UTC and may delay scheduled starts; paper orders are submitted only when `PAPER_TRADING_ENABLED=true`.
+- Each run downloads the current IJH equity constituents, runs `stock_discovery` over that universe, then analyzes the passing candidates. The discovery filter uses current financial and price/volume data, including its $3B-$10B market-cap range; it is not an all-market or SPY-wide momentum scan. Momentum ranks the passing names for portfolio selection; analyzer scores affect position sizing but are not a separate entry threshold.
+- Current positions that still pass discovery participate in ranking and the existing rank buffer. Positions that fail discovery are absent from the target universe and receive a zero target, so the trader exits them; newly passing names can enter the portfolio. If fewer than two names pass or any passing name cannot be analyzed, the run skips trading rather than risk a partial-universe rebalance.
+- The candidate pool is refreshed once per weekly workflow run, not daily. Store `ALPACA_API_KEY`, `ALPACA_SECRET_KEY`, and `FMP_API_KEY` as GitHub Actions secrets, never in the image. Disable any previous GCP Cloud Scheduler trigger before setting `PAPER_TRADING_ENABLED=true` to prevent duplicate execution.
+- Before rebalancing, each successful discovery pass writes a dated JSON snapshot containing the IJH candidate universe, additions, removals, and screening report. The workflow archives snapshots on the `discovery-snapshots` branch using its `GITHUB_TOKEN` with `contents: write`; manual dry runs also archive a snapshot. This branch is intended as the point-in-time universe history for later research, not as a guarantee that vendor data is historically restated.
+- The strategy uses completed daily bars, so an early run uses the latest completed session. Rebalance cadence defaults to 5 trading days; the existing open-order, cash-reserve, minimum-trade, and drift-band guards still apply.
+- GitHub Actions does not require an always-on Codespace. A Codespace can still be used for manual dry runs, but it may stop when idle.
+
+## Strategy V7 — momentum window & vol targeting (2026-09-28)
+
+Two changes to the portfolio construction, both env-switchable (see
+`docs/BACKTEST_RESULTS.md`, 2026-09-28 entry, for the evidence on the live
+universe and on a point-in-time S&P 500):
+
+| | V6 | V7 (default) |
+|---|---|---|
+| Momentum signal | 0.3 × 1-month + 0.7 × 3-month return | **6-month return ending one month ago** (`indicators.change_6m_skip1`, i.e. close[t−21] / close[t−126] − 1). Falls back to the V6 blend when a name has fewer than 127 bars. |
+| Hold-until rank | held names survive while ranked ≤ 15 | ≤ **20** (entry still requires rank ≤ 10) |
+| Exposure | 1 − macro cash | (1 − macro cash) × **min(1, 0.40 / realized vol)**, where realized vol is the annualized 20-day vol of the *target basket* (ladder weights, `indicators.daily_returns`). Never levers up; the remainder sits in cash. |
+
+Why: the 1m/3m window sits in the short-term-reversal zone — on an unbiased
+point-in-time S&P 500 universe it earned Sharpe 0.64 with 23×/yr turnover,
+below simply holding SPY (0.88). Every 6–12-month skip-month window beats it on
+both universes at every rebalance-day offset with roughly half the turnover.
+Vol targeting is the one overlay with a solid replication record specifically
+for momentum (Barroso & Santa-Clara 2015; Cederburg et al. 2020); here it cuts
+2022 from −24% to −10% and the max drawdown by ~12 points on the traded
+universe at little Sharpe cost.
+
+Env knobs (all optional): `MOM_MODE=6_1|legacy`, `VOL_TARGET=0.40` (0 disables),
+`VOL_LOOKBACK=20`. Selection, ladder weights, 25% cap, weekly cadence,
+blend 0.20, 2% band and the macro cash reserve are unchanged.
+
+Not shipped after testing: risk-adjusted / residual / frog-in-the-pan
+momentum (lower vol, no Sharpe gain over raw 6-1), SPY 200-SMA / 12-month /
+4-state regime filters (cost more than they save on both universes), sector
+caps, inverse-vol weights. Open items with positive evidence on both
+universes: a 20% per-position trailing stop (needs per-position state) and
+tranching the rebalance across the week (rebalance-day luck is ±10 pts/yr).
+
+## Rebalance Cadence & Turnover (reviewed 2026-09-20)
+
+The live book ran a **daily** cadence with `blend_speed=0.80` and a 0.3%-of-equity
+min-trade floor. Measured over the paper account's first 6.2 months
+(2026-03-13 → 2026-09-18, 2,392 fills):
+
+| | |
+|---|---|
+| Turnover | $3.09M notional on a $123k book — **~48x annualized** |
+| Days with fills | **111 / 111** trading days |
+| Median daily traded notional | **18.3% of equity** |
+
+Realized P&L by holding period (FIFO over all closed legs) showed where the
+money actually came from:
+
+| Holding period | Legs | Cost basis | P&L | Return |
+|---|---|---|---|---|
+| ≤1 day | 221 | $244,983 | −2,246 | −0.92% |
+| 2–5 days | 346 | $220,290 | −3,921 | −1.78% |
+| 6–10 days | 531 | $370,040 | −224 | −0.06% |
+| 11–21 days | 613 | $423,793 | −1,901 | −0.45% |
+| **22–60 days** | **272** | **$219,672** | **+27,518** | **+12.53%** |
+| >60 days | 19 | $7,125 | −207 | −2.91% |
+
+Every leg held ≤21 days lost money in aggregate (−$8,292 on $1.26M of cost).
+All of the profit came from the positions that were left alone.
+
+### Why the old settings churned
+
+Three parameters were mutually inconsistent:
+
+1. `blend_speed=0.80` closes 80% of the gap to target **per run**, i.e. 96% in
+   two runs. On a daily cadence that is full re-weighting every two days, not
+   "gradual rebalancing".
+2. The rank ladder `mom_w = 3.0 − 2.8 * rank_pct` spreads the top 10 from 18.65%
+   down to 1.35%. One **adjacent** rank swap moves a weight by 1.92% of equity
+   (~$2,366 on $123k) — 6.4x the $369 min-trade floor, so the floor never bound.
+3. Momentum is recomputed every run from 1m/3m returns, so ranks reshuffle daily
+   by construction.
+
+### Backtest evidence
+
+`backtest_strategy.py` now takes `cost_per_side`, `rebalance_interval`,
+`blend_speed` and `use_scores`, so cadence and cost can be swept. Note the
+shipped backtest had `rebalance_interval = 14` hard-coded while live traded
+daily — **it was never validating the live configuration.**
+
+Strategy return over the live window and trailing 12m, by cost assumption
+(140-name universe, scores disabled — see below):
+
+| config | turn/yr | live 5bp | live 15bp | live 25bp | 12m 5bp | 12m 15bp | 12m 25bp |
+|---|---|---|---|---|---|---|---|
+| **live: daily, blend 0.80** | 62.6x | +40.4% | +35.8% | +31.3% | +141.9% | +128.0% | +114.9% |
+| daily, blend 0.20 | 27.5x | +55.1% | +52.8% | +50.5% | +172.9% | +166.0% | +159.2% |
+| weekly, blend 0.80 | 26.2x | +59.0% | +56.7% | +54.4% | +158.9% | +152.3% | +145.9% |
+| 14d, blend 0.80 (old BT) | 15.0x | +39.9% | +38.7% | +37.5% | +192.8% | +189.0% | +185.2% |
+| **weekly, blend 0.20 (shipped)** | ~9.5x | +58.4% | +57.4% | +56.5% | +180.9% | +178.1% | +175.4% |
+
+The daily/0.80 pair is the worst config in **both** windows at **every** cost
+assumption, and it is also the most cost-sensitive (−9.1 pts live, −27.0 pts 12m
+going 5bp → 25bp, vs ~−2 pts for the low-turnover configs).
+
+### What shipped
+
+- `alpaca_trader.run_trading` gained a **cadence gate** (`REBALANCE_INTERVAL_DAYS`,
+  default 5 trading days, 0 disables). It is stateless — it reads the broker's
+  last fill, because Cloud Run jobs have no persistent disk.
+- `calculate_trades` default `blend_speed` 0.80 → **0.20**.
+- `calculate_trades` gained `band_pct` (default **2% of equity**): a name only
+  trades when it is that far from **target**. Measuring against target rather
+  than against the blended trade size keeps the band meaningful independent of
+  `blend_speed`. Full exits still bypass it.
+
+On the actual book as of 2026-09-18, a representative reshuffle produces
+8 orders / 18.3% of equity under the old settings (matching the measured live
+median exactly) vs **4 orders / 8.5%** under the new ones.
+
+### What was tested and rejected
+
+- **Flattening the rank ladder.** Once the cadence is fixed, the ladder does not
+  drive turnover at all (9.6x / 9.4x / 9.5x for slopes 3.0-2.8 / 1.6-1.2 / flat).
+  Full flattening costs ~28 pts of 12m return for ~5 pts of vol. Not shipped.
+- **Skip-the-recent-month momentum** (3-1 instead of 0.3·m1 + 0.7·m3). Wins the
+  live window (+60.7% vs +58.4% at 5bp) but loses badly on trailing 12m (+143.0%
+  vs +180.9%). Not robust on this evidence. Not shipped.
+
+### Known limits of these numbers
+
+- The backtest says +40.4% for the live config over the live window; the account
+  actually did **+23.1%**. The gap comes from survivorship bias (the universe is
+  today's ticker list), no macro cash drag, execution at the close rather than
+  the open auction, whole-share rounding and buy-budget clipping. **Use the
+  backtest to rank configurations, never to predict live returns.**
+- Scores are disabled (`use_scores=False`) in the sweep. With `MOM_PCT = 0.95`
+  the score moves a weight by ±0.1% of equity across its entire 0–100 range and
+  never affects selection, so this changes nothing material while making a
+  daily-cadence sweep tractable.
+- Risk is **not** addressed by any of this. Every config tested lands at 53–64%
+  annualized vol and 29–39% max drawdown. Sector caps and vol targeting remain
+  open (the book is currently 10/10 SaaS out of a 161-name universe).

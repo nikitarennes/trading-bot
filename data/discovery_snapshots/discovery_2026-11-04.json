@@ -1,0 +1,2638 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-11-04T23:59:17.342967+00:00",
+  "candidate_universe": {
+    "FTI": {
+      "name": "TECHNIPFMC PLC",
+      "sector": "Energy"
+    },
+    "UTHR": {
+      "name": "UNITED THERAPEUTICS",
+      "sector": "Health Care"
+    },
+    "ATI": {
+      "name": "ATI",
+      "sector": "Industrials"
+    },
+    "ENTG": {
+      "name": "ENTEGRIS INC",
+      "sector": "Information Technology"
+    },
+    "RS": {
+      "name": "RELIANCE STEEL & ALUMINUM",
+      "sector": "Materials"
+    },
+    "XPO": {
+      "name": "XPO",
+      "sector": "Industrials"
+    },
+    "USFD": {
+      "name": "US FOODS HOLDING",
+      "sector": "Consumer Staples"
+    },
+    "THC": {
+      "name": "TENET HEALTHCARE CORP",
+      "sector": "Health Care"
+    },
+    "ROKU": {
+      "name": "ROKU CLASS A",
+      "sector": "Communication"
+    },
+    "NVT": {
+      "name": "NVENT ELECTRIC PLC",
+      "sector": "Industrials"
+    },
+    "PR": {
+      "name": "PERMIAN RESOURCES CLASS A",
+      "sector": "Energy"
+    },
+    "WWD": {
+      "name": "WOODWARD",
+      "sector": "Industrials"
+    },
+    "RGLD": {
+      "name": "ROYAL GOLD",
+      "sector": "Materials"
+    },
+    "ROIV": {
+      "name": "ROIVANT SCIENCES LTD",
+      "sector": "Health Care"
+    },
+    "CW": {
+      "name": "CURTISS WRIGHT",
+      "sector": "Industrials"
+    },
+    "ITT": {
+      "name": "ITT INC",
+      "sector": "Industrials"
+    },
+    "OVV": {
+      "name": "OVINTIV",
+      "sector": "Energy"
+    },
+    "SNX": {
+      "name": "TD SYNNEX",
+      "sector": "Information Technology"
+    },
+    "EWBC": {
+      "name": "EAST WEST BANCORP",
+      "sector": "Financials"
+    },
+    "EXEL": {
+      "name": "EXELIXIS INC",
+      "sector": "Health Care"
+    },
+    "APG": {
+      "name": "API GROUP",
+      "sector": "Industrials"
+    },
+    "DINO": {
+      "name": "HF SINCLAIR",
+      "sector": "Energy"
+    },
+    "SN": {
+      "name": "SHARKNINJA",
+      "sector": "Consumer Discretionary"
+    },
+    "NTNX": {
+      "name": "NUTANIX CLASS A",
+      "sector": "Information Technology"
+    },
+    "RGA": {
+      "name": "REINSURANCE GROUP OF AMERICA",
+      "sector": "Financials"
+    },
+    "RBA": {
+      "name": "RB GLOBAL",
+      "sector": "Industrials"
+    },
+    "TOST": {
+      "name": "TOAST CLASS A",
+      "sector": "Financials"
+    },
+    "JLL": {
+      "name": "JONES LANG LASALLE",
+      "sector": "Real Estate"
+    },
+    "WCC": {
+      "name": "WESCO INTERNATIONAL",
+      "sector": "Industrials"
+    },
+    "NBIX": {
+      "name": "NEUROCRINE BIOSCIENCES",
+      "sector": "Health Care"
+    },
+    "MTSI": {
+      "name": "MACOM TECHNOLOGY SOLUTIONS",
+      "sector": "Information Technology"
+    },
+    "TLN": {
+      "name": "TALEN ENERGY",
+      "sector": "Utilities"
+    },
+    "RBC": {
+      "name": "RBC BEARINGS",
+      "sector": "Industrials"
+    },
+    "LECO": {
+      "name": "LINCOLN ELECTRIC HOLDINGS",
+      "sector": "Industrials"
+    },
+    "PNFP": {
+      "name": "PINNACLE FINANCIAL PARTNERS",
+      "sector": "Financials"
+    },
+    "CSL": {
+      "name": "CARLISLE COMPANIES",
+      "sector": "Industrials"
+    },
+    "DOCU": {
+      "name": "DOCUSIGN",
+      "sector": "Information Technology"
+    },
+    "PFGC": {
+      "name": "PERFORMANCE FOOD GROUP",
+      "sector": "Consumer Staples"
+    },
+    "BURL": {
+      "name": "BURLINGTON STORES",
+      "sector": "Consumer Discretionary"
+    },
+    "TRU": {
+      "name": "TRANSUNION",
+      "sector": "Industrials"
+    },
+    "SGI": {
+      "name": "SOMNIGROUP INTERNATIONAL",
+      "sector": "Consumer Discretionary"
+    },
+    "LSCC": {
+      "name": "LATTICE SEMICONDUCTOR",
+      "sector": "Information Technology"
+    },
+    "CACI": {
+      "name": "CACI INTERNATIONAL INC CLASS A",
+      "sector": "Industrials"
+    },
+    "MEDP": {
+      "name": "MEDPACE HOLDINGS",
+      "sector": "Health Care"
+    },
+    "JAZZ": {
+      "name": "JAZZ PHARMACEUTICALS PLC",
+      "sector": "Health Care"
+    },
+    "MANH": {
+      "name": "MANHATTAN ASSOCIATES",
+      "sector": "Information Technology"
+    },
+    "CLH": {
+      "name": "CLEAN HARBORS INC",
+      "sector": "Industrials"
+    },
+    "WPC": {
+      "name": "W. P. CAREY REIT",
+      "sector": "Real Estate"
+    },
+    "CRS": {
+      "name": "CARPENTER TECHNOLOGY",
+      "sector": "Industrials"
+    },
+    "HALO": {
+      "name": "HALOZYME THERAPEUTICS",
+      "sector": "Health Care"
+    },
+    "NXT": {
+      "name": "NEXTPOWER INC",
+      "sector": "Industrials"
+    },
+    "RNR": {
+      "name": "RENAISSANCERE HOLDING",
+      "sector": "Financials"
+    },
+    "OHI": {
+      "name": "OMEGA HEALTHCARE INVESTORS REIT",
+      "sector": "Real Estate"
+    },
+    "ARMK": {
+      "name": "ARAMARK",
+      "sector": "Consumer Discretionary"
+    },
+    "SUI": {
+      "name": "SUN COMMUNITIES REIT INC",
+      "sector": "Real Estate"
+    },
+    "EQH": {
+      "name": "EQUITABLE HOLDINGS",
+      "sector": "Financials"
+    },
+    "BJ": {
+      "name": "BJS WHOLESALE CLUB HOLDINGS",
+      "sector": "Consumer Staples"
+    },
+    "TOL": {
+      "name": "TOLL BROTHERS INC",
+      "sector": "Consumer Discretionary"
+    },
+    "MKSI": {
+      "name": "MKS",
+      "sector": "Information Technology"
+    },
+    "CDE": {
+      "name": "COEUR MINING",
+      "sector": "Materials"
+    },
+    "GKOS": {
+      "name": "GLAUKOS",
+      "sector": "Health Care"
+    },
+    "NLY": {
+      "name": "ANNALY CAPITAL MANAGEMENT REIT",
+      "sector": "Financials"
+    },
+    "LAMR": {
+      "name": "LAMAR ADVERTISING COMPANY CLAS",
+      "sector": "Real Estate"
+    },
+    "DT": {
+      "name": "DYNATRACE INC",
+      "sector": "Information Technology"
+    },
+    "RPM": {
+      "name": "RPM INTERNATIONAL INC",
+      "sector": "Materials"
+    },
+    "GWRE": {
+      "name": "GUIDEWIRE SOFTWARE",
+      "sector": "Information Technology"
+    },
+    "EHC": {
+      "name": "ENCOMPASS HEALTH",
+      "sector": "Health Care"
+    },
+    "UNM": {
+      "name": "UNUM",
+      "sector": "Financials"
+    },
+    "FIVE": {
+      "name": "FIVE BELOW",
+      "sector": "Consumer Discretionary"
+    },
+    "FN": {
+      "name": "FABRINET",
+      "sector": "Information Technology"
+    },
+    "CCK": {
+      "name": "CROWN HOLDINGS INC",
+      "sector": "Materials"
+    },
+    "RRC": {
+      "name": "RANGE RESOURCES",
+      "sector": "Energy"
+    },
+    "PEN": {
+      "name": "PENUMBRA",
+      "sector": "Health Care"
+    },
+    "DTM": {
+      "name": "DT MIDSTREAM",
+      "sector": "Energy"
+    },
+    "WTRG": {
+      "name": "ESSENTIAL UTILITIES INC",
+      "sector": "Utilities"
+    },
+    "MTZ": {
+      "name": "MASTEC INC",
+      "sector": "Industrials"
+    },
+    "MLI": {
+      "name": "MUELLER INDUSTRIES INC",
+      "sector": "Industrials"
+    },
+    "AR": {
+      "name": "ANTERO RESOURCES",
+      "sector": "Energy"
+    },
+    "ELAN": {
+      "name": "ELANCO ANIMAL HEALTH",
+      "sector": "Health Care"
+    },
+    "TXRH": {
+      "name": "TEXAS ROADHOUSE INC",
+      "sector": "Consumer Discretionary"
+    },
+    "BWXT": {
+      "name": "BWX TECHNOLOGIES INC",
+      "sector": "Industrials"
+    },
+    "RRX": {
+      "name": "REGAL REXNORD",
+      "sector": "Industrials"
+    },
+    "AHR": {
+      "name": "AMERICAN HEALTHCARE REIT",
+      "sector": "Real Estate"
+    },
+    "BTSG": {
+      "name": "BRIGHTSPRING HEALTH SERVICES INC",
+      "sector": "Health Care"
+    },
+    "SMTC": {
+      "name": "SEMTECH",
+      "sector": "Information Technology"
+    },
+    "ELS": {
+      "name": "EQUITY LIFESTYLE PROPERTIES REIT I",
+      "sector": "Real Estate"
+    },
+    "COKE": {
+      "name": "COCA COLA CONSOLIDATED",
+      "sector": "Consumer Staples"
+    },
+    "GLPI": {
+      "name": "GAMING AND LEISURE PROPERTIES REIT",
+      "sector": "Real Estate"
+    },
+    "EVR": {
+      "name": "EVERCORE CLASS A",
+      "sector": "Financials"
+    },
+    "HUBS": {
+      "name": "HUBSPOT",
+      "sector": "Information Technology"
+    },
+    "RGEN": {
+      "name": "REPLIGEN",
+      "sector": "Health Care"
+    },
+    "GGG": {
+      "name": "GRACO",
+      "sector": "Industrials"
+    },
+    "AIT": {
+      "name": "APPLIED INDUSTRIAL TECHNOLOGIES",
+      "sector": "Industrials"
+    },
+    "WSO": {
+      "name": "WATSCO",
+      "sector": "Industrials"
+    },
+    "FHN": {
+      "name": "FIRST HORIZON",
+      "sector": "Financials"
+    },
+    "STRL": {
+      "name": "STERLING INFRASTRUCTURE",
+      "sector": "Industrials"
+    },
+    "SEIC": {
+      "name": "SEI INVESTMENTS",
+      "sector": "Financials"
+    },
+    "MOH": {
+      "name": "MOLINA HEALTHCARE INC",
+      "sector": "Health Care"
+    },
+    "R": {
+      "name": "RYDER SYSTEM",
+      "sector": "Industrials"
+    },
+    "CG": {
+      "name": "CARLYLE GROUP INC",
+      "sector": "Financials"
+    },
+    "BMRN": {
+      "name": "BIOMARIN PHARMACEUTICAL",
+      "sector": "Health Care"
+    },
+    "EGP": {
+      "name": "EASTGROUP PROPERTIES REIT",
+      "sector": "Real Estate"
+    },
+    "ARW": {
+      "name": "ARROW ELECTRONICS",
+      "sector": "Information Technology"
+    },
+    "AVTR": {
+      "name": "AVANTOR",
+      "sector": "Health Care"
+    },
+    "BWA": {
+      "name": "BORGWARNER",
+      "sector": "Consumer Discretionary"
+    },
+    "ENSG": {
+      "name": "ENSIGN GROUP",
+      "sector": "Health Care"
+    },
+    "AFG": {
+      "name": "AMERICAN FINANCIAL GROUP",
+      "sector": "Financials"
+    },
+    "WTFC": {
+      "name": "WINTRUST FINANCIAL",
+      "sector": "Financials"
+    },
+    "LFUS": {
+      "name": "LITTELFUSE",
+      "sector": "Information Technology"
+    },
+    "BAH": {
+      "name": "BOOZ ALLEN HAMILTON HOLDING CLASS",
+      "sector": "Industrials"
+    },
+    "AA": {
+      "name": "ALCOA CORP",
+      "sector": "Materials"
+    },
+    "FNF": {
+      "name": "FIDELITY NATIONAL FINANCIAL INC",
+      "sector": "Financials"
+    },
+    "ALLY": {
+      "name": "ALLY FINANCIAL INC",
+      "sector": "Financials"
+    },
+    "SF": {
+      "name": "STIFEL FINANCIAL",
+      "sector": "Financials"
+    },
+    "SITM": {
+      "name": "SITIME",
+      "sector": "Information Technology"
+    },
+    "FLS": {
+      "name": "FLOWSERVE",
+      "sector": "Industrials"
+    },
+    "MOG-A": {
+      "name": "MOOG INC CLASS A",
+      "sector": "Industrials"
+    },
+    "CR": {
+      "name": "CRANE",
+      "sector": "Industrials"
+    },
+    "SSB": {
+      "name": "SOUTHSTATE BANK CORP",
+      "sector": "Financials"
+    },
+    "SCI": {
+      "name": "SERVICE",
+      "sector": "Consumer Discretionary"
+    },
+    "KNX": {
+      "name": "KNIGHT-SWIFT TRANSPORTATION HOLDIN",
+      "sector": "Industrials"
+    },
+    "TTC": {
+      "name": "TORO",
+      "sector": "Industrials"
+    },
+    "CNH": {
+      "name": "CNH INDUSTRIAL N.V.",
+      "sector": "Industrials"
+    },
+    "OGE": {
+      "name": "OGE ENERGY",
+      "sector": "Utilities"
+    },
+    "AGNC": {
+      "name": "AGNC INVESTMENT REIT",
+      "sector": "Financials"
+    },
+    "TTEK": {
+      "name": "TETRA TECH",
+      "sector": "Industrials"
+    },
+    "AMH": {
+      "name": "AMERICAN HOMES RENT REIT CLASS A",
+      "sector": "Real Estate"
+    },
+    "DCI": {
+      "name": "DONALDSON",
+      "sector": "Industrials"
+    },
+    "ONTO": {
+      "name": "ONTO INNOVATION",
+      "sector": "Information Technology"
+    },
+    "GME": {
+      "name": "GAMESTOP CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "WTS": {
+      "name": "WATTS WATER TECHNOLOGIES CLASS A",
+      "sector": "Industrials"
+    },
+    "CFR": {
+      "name": "CULLEN FROST BANKERS",
+      "sector": "Financials"
+    },
+    "AYI": {
+      "name": "ACUITY",
+      "sector": "Industrials"
+    },
+    "ALSN": {
+      "name": "ALLISON TRANSMISSION HOLDINGS",
+      "sector": "Industrials"
+    },
+    "UMBF": {
+      "name": "UMB FINANCIAL",
+      "sector": "Financials"
+    },
+    "SOLS": {
+      "name": "SOLSTICE ADVANCED MATERIALS INC",
+      "sector": "Materials"
+    },
+    "CGNX": {
+      "name": "COGNEX",
+      "sector": "Information Technology"
+    },
+    "NYT": {
+      "name": "NEW YORK TIMES CLASS A",
+      "sector": "Communication"
+    },
+    "RMBS": {
+      "name": "RAMBUS",
+      "sector": "Information Technology"
+    },
+    "AMG": {
+      "name": "AFFILIATED MANAGERS GROUP",
+      "sector": "Financials"
+    },
+    "WMS": {
+      "name": "ADVANCED DRAINAGE SYSTEMS INC",
+      "sector": "Industrials"
+    },
+    "AEIS": {
+      "name": "ADVANCED ENERGY INDUSTRIES",
+      "sector": "Information Technology"
+    },
+    "SAIA": {
+      "name": "SAIA INC",
+      "sector": "Industrials"
+    },
+    "CRBG": {
+      "name": "COREBRIDGE FINANCIAL INC",
+      "sector": "Financials"
+    },
+    "CUBE": {
+      "name": "CUBESMART REIT",
+      "sector": "Real Estate"
+    },
+    "VOYA": {
+      "name": "VOYA FINANCIAL",
+      "sector": "Financials"
+    },
+    "PINS": {
+      "name": "PINTEREST CLASS A",
+      "sector": "Communication"
+    },
+    "CART": {
+      "name": "MAPLEBEAR",
+      "sector": "Consumer Staples"
+    },
+    "OC": {
+      "name": "OWENS CORNING",
+      "sector": "Industrials"
+    },
+    "ZION": {
+      "name": "ZIONS BANCORPORATION",
+      "sector": "Financials"
+    },
+    "ATR": {
+      "name": "APTARGROUP",
+      "sector": "Materials"
+    },
+    "DKS": {
+      "name": "DICKS SPORTING",
+      "sector": "Consumer Discretionary"
+    },
+    "BRX": {
+      "name": "BRIXMOR PROPERTY GROUP REIT INC",
+      "sector": "Real Estate"
+    },
+    "GMED": {
+      "name": "GLOBUS MEDICAL CLASS A",
+      "sector": "Health Care"
+    },
+    "EAT": {
+      "name": "BRINKER INTERNATIONAL INC",
+      "sector": "Consumer Discretionary"
+    },
+    "HL": {
+      "name": "HECLA MINING",
+      "sector": "Materials"
+    },
+    "DOCN": {
+      "name": "DIGITALOCEAN HOLDINGS",
+      "sector": "Information Technology"
+    },
+    "SANM": {
+      "name": "SANMINA",
+      "sector": "Information Technology"
+    },
+    "OSK": {
+      "name": "OSHKOSH CORP",
+      "sector": "Industrials"
+    },
+    "PB": {
+      "name": "PROSPERITY BANCSHARES",
+      "sector": "Financials"
+    },
+    "COLB": {
+      "name": "COLUMBIA BANKING SYSTEM INC",
+      "sector": "Financials"
+    },
+    "CTRE": {
+      "name": "CARETRUST REIT",
+      "sector": "Real Estate"
+    },
+    "CYTK": {
+      "name": "CYTOKINETICS",
+      "sector": "Health Care"
+    },
+    "PRI": {
+      "name": "PRIMERICA",
+      "sector": "Financials"
+    },
+    "ORI": {
+      "name": "OLD REPUBLIC INTERNATIONAL",
+      "sector": "Financials"
+    },
+    "THG": {
+      "name": "HANOVER INSURANCE GROUP",
+      "sector": "Financials"
+    },
+    "TTMI": {
+      "name": "TTM TECHNOLOGIES INC",
+      "sector": "Information Technology"
+    },
+    "VNOM": {
+      "name": "VIPER ENERGY INC CLASS A",
+      "sector": "Energy"
+    },
+    "ONB": {
+      "name": "OLD NATIONAL BANCORP",
+      "sector": "Financials"
+    },
+    "ADC": {
+      "name": "AGREE REALTY REIT",
+      "sector": "Real Estate"
+    },
+    "HQY": {
+      "name": "HEALTHEQUITY",
+      "sector": "Health Care"
+    },
+    "ACM": {
+      "name": "AECOM",
+      "sector": "Industrials"
+    },
+    "MUSA": {
+      "name": "MURPHY USA",
+      "sector": "Consumer Discretionary"
+    },
+    "REXR": {
+      "name": "REXFORD INDUSTRIAL REALTY REIT",
+      "sector": "Real Estate"
+    },
+    "AAL": {
+      "name": "AMERICAN AIRLINES GROUP",
+      "sector": "Industrials"
+    },
+    "DAR": {
+      "name": "DARLING INGREDIENTS",
+      "sector": "Consumer Staples"
+    },
+    "VMI": {
+      "name": "VALMONT INDS",
+      "sector": "Industrials"
+    },
+    "ARWR": {
+      "name": "ARROWHEAD PHARMACEUTICALS",
+      "sector": "Health Care"
+    },
+    "CNM": {
+      "name": "CORE & MAIN INC CLASS A",
+      "sector": "Industrials"
+    },
+    "IDA": {
+      "name": "IDACORP",
+      "sector": "Utilities"
+    },
+    "KNSL": {
+      "name": "KINSALE CAPITAL GROUP INC",
+      "sector": "Financials"
+    },
+    "SPXC": {
+      "name": "SPX TECHNOLOGIES INC",
+      "sector": "Industrials"
+    },
+    "UGI": {
+      "name": "UGI",
+      "sector": "Utilities"
+    },
+    "KRYS": {
+      "name": "KRYSTAL BIOTECH",
+      "sector": "Health Care"
+    },
+    "IDCC": {
+      "name": "INTERDIGITAL INC",
+      "sector": "Information Technology"
+    },
+    "SSD": {
+      "name": "SIMPSON MANUFACTURING",
+      "sector": "Industrials"
+    },
+    "CLF": {
+      "name": "CLEVELAND CLIFFS INC",
+      "sector": "Materials"
+    },
+    "NNN": {
+      "name": "NNN REIT",
+      "sector": "Real Estate"
+    },
+    "ALV": {
+      "name": "AUTOLIV",
+      "sector": "Consumer Discretionary"
+    },
+    "HLI": {
+      "name": "HOULIHAN LOKEY CLASS A",
+      "sector": "Financials"
+    },
+    "CTVA": {
+      "name": "CORTEVA",
+      "sector": "Materials"
+    },
+    "CHRD": {
+      "name": "CHORD ENERGY",
+      "sector": "Energy"
+    },
+    "WAL": {
+      "name": "WESTERN ALLIANCE",
+      "sector": "Financials"
+    },
+    "CORT": {
+      "name": "CORCEPT THERAPEUTICS",
+      "sector": "Health Care"
+    },
+    "FCFS": {
+      "name": "FIRSTCASH HOLDINGS INC",
+      "sector": "Financials"
+    },
+    "H": {
+      "name": "HYATT HOTELS CORP CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "KTOS": {
+      "name": "KRATOS DEFENSE AND SECURITY SOLUTI",
+      "sector": "Industrials"
+    },
+    "PBF": {
+      "name": "PBF ENERGY CLASS A",
+      "sector": "Energy"
+    },
+    "FORM": {
+      "name": "FORMFACTOR INC",
+      "sector": "Information Technology"
+    },
+    "AXTA": {
+      "name": "AXALTA COATING SYSTEMS",
+      "sector": "Materials"
+    },
+    "CBSH": {
+      "name": "COMMERCE BANCSHARES",
+      "sector": "Financials"
+    },
+    "NFG": {
+      "name": "NATIONAL FUEL GAS",
+      "sector": "Utilities"
+    },
+    "KEX": {
+      "name": "KIRBY CORP",
+      "sector": "Industrials"
+    },
+    "JEF": {
+      "name": "JEFFERIES FINANCIAL GROUP INC",
+      "sector": "Financials"
+    },
+    "SLAB": {
+      "name": "SILICON LABORATORIES",
+      "sector": "Information Technology"
+    },
+    "VIAV": {
+      "name": "VIAVI SOLUTIONS",
+      "sector": "Information Technology"
+    },
+    "TKR": {
+      "name": "TIMKEN",
+      "sector": "Industrials"
+    },
+    "CROX": {
+      "name": "CROCS",
+      "sector": "Consumer Discretionary"
+    },
+    "CMC": {
+      "name": "COMMERCIAL METALS",
+      "sector": "Materials"
+    },
+    "QLYS": {
+      "name": "QUALYS",
+      "sector": "Information Technology"
+    },
+    "AVT": {
+      "name": "AVNET",
+      "sector": "Information Technology"
+    },
+    "FR": {
+      "name": "FIRST INDUSTRIAL REALTY TRUST",
+      "sector": "Real Estate"
+    },
+    "PCTY": {
+      "name": "PAYLOCITY HOLDING CORP",
+      "sector": "Industrials"
+    },
+    "STAG": {
+      "name": "STAG INDUSTRIAL REIT",
+      "sector": "Real Estate"
+    },
+    "ANF": {
+      "name": "ABERCROMBIE AND FITCH CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "CHE": {
+      "name": "CHEMED",
+      "sector": "Health Care"
+    },
+    "AM": {
+      "name": "ANTERO MIDSTREAM",
+      "sector": "Energy"
+    },
+    "DY": {
+      "name": "DYCOM INDUSTRIES INC",
+      "sector": "Industrials"
+    },
+    "BIO": {
+      "name": "BIO RAD LABORATORIES CLASS A",
+      "sector": "Health Care"
+    },
+    "VLY": {
+      "name": "VALLEY NATIONAL",
+      "sector": "Financials"
+    },
+    "SWX": {
+      "name": "SOUTHWEST GAS HOLDINGS",
+      "sector": "Utilities"
+    },
+    "BSY": {
+      "name": "BENTLEY SYSTEMS CLASS B",
+      "sector": "Information Technology"
+    },
+    "VFC": {
+      "name": "VF CORP",
+      "sector": "Consumer Discretionary"
+    },
+    "CVLT": {
+      "name": "COMMVAULT SYSTEMS",
+      "sector": "Information Technology"
+    },
+    "FAF": {
+      "name": "FIRST AMERICAN FINANCIAL CORP",
+      "sector": "Financials"
+    },
+    "NOV": {
+      "name": "NOV",
+      "sector": "Energy"
+    },
+    "LNTH": {
+      "name": "LANTHEUS HOLDINGS",
+      "sector": "Health Care"
+    },
+    "ELF": {
+      "name": "ELF BEAUTY",
+      "sector": "Consumer Staples"
+    },
+    "TEX": {
+      "name": "TEREX",
+      "sector": "Industrials"
+    },
+    "HR": {
+      "name": "HEALTHCARE REALTY TRUST INC CLASS",
+      "sector": "Real Estate"
+    },
+    "LAD": {
+      "name": "LITHIA MOTORS INC CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "GATX": {
+      "name": "GATX",
+      "sector": "Industrials"
+    },
+    "HRB": {
+      "name": "H&R BLOCK INC",
+      "sector": "Consumer Discretionary"
+    },
+    "AGCO": {
+      "name": "AGCO",
+      "sector": "Industrials"
+    },
+    "FNB": {
+      "name": "FNB CORP",
+      "sector": "Financials"
+    },
+    "FLR": {
+      "name": "FLUOR CORP",
+      "sector": "Industrials"
+    },
+    "SAIC": {
+      "name": "SCIENCE APPLICATIONS INTERNATIONAL",
+      "sector": "Industrials"
+    },
+    "CHDN": {
+      "name": "CHURCHILL DOWNS",
+      "sector": "Consumer Discretionary"
+    },
+    "EXLS": {
+      "name": "EXLSERVICE HOLDINGS",
+      "sector": "Industrials"
+    },
+    "MTDR": {
+      "name": "MATADOR RESOURCES",
+      "sector": "Energy"
+    },
+    "GBCI": {
+      "name": "GLACIER BANCORP INC",
+      "sector": "Financials"
+    },
+    "WFRD": {
+      "name": "WEATHERFORD INTERNATIONAL PLC",
+      "sector": "Energy"
+    },
+    "MSA": {
+      "name": "MSA SAFETY INC",
+      "sector": "Industrials"
+    },
+    "BRKR": {
+      "name": "BRUKER",
+      "sector": "Health Care"
+    },
+    "ULS": {
+      "name": "UL SOLUTIONS INC CLASS A",
+      "sector": "Industrials"
+    },
+    "M": {
+      "name": "MACYS",
+      "sector": "Consumer Discretionary"
+    },
+    "UBSI": {
+      "name": "UNITED BANKSHARES",
+      "sector": "Financials"
+    },
+    "CAVA": {
+      "name": "CAVA GROUP",
+      "sector": "Consumer Discretionary"
+    },
+    "BKH": {
+      "name": "BLACK HILLS CORP",
+      "sector": "Utilities"
+    },
+    "G": {
+      "name": "GENPACT",
+      "sector": "Industrials"
+    },
+    "HXL": {
+      "name": "HEXCEL",
+      "sector": "Industrials"
+    },
+    "RLI": {
+      "name": "RLI CORP",
+      "sector": "Financials"
+    },
+    "INGR": {
+      "name": "INGREDION INC",
+      "sector": "Consumer Staples"
+    },
+    "ESNT": {
+      "name": "ESSENT GROUP",
+      "sector": "Financials"
+    },
+    "ST": {
+      "name": "SENSATA TECHNOLOGIES HOLDING PLC",
+      "sector": "Industrials"
+    },
+    "ENS": {
+      "name": "ENERSYS",
+      "sector": "Industrials"
+    },
+    "SIGI": {
+      "name": "SELECTIVE INSURANCE GROUP",
+      "sector": "Financials"
+    },
+    "GXO": {
+      "name": "GXO LOGISTICS",
+      "sector": "Industrials"
+    },
+    "VAL": {
+      "name": "VALARIS LTD",
+      "sector": "Energy"
+    },
+    "EXP": {
+      "name": "EAGLE MATERIALS INC",
+      "sector": "Materials"
+    },
+    "MTG": {
+      "name": "MGIC INVESTMENT",
+      "sector": "Financials"
+    },
+    "WH": {
+      "name": "WYNDHAM HOTELS RESORTS",
+      "sector": "Consumer Discretionary"
+    },
+    "TXNM": {
+      "name": "TXNM ENERGY INC",
+      "sector": "Utilities"
+    },
+    "WEX": {
+      "name": "WEX",
+      "sector": "Financials"
+    },
+    "ORA": {
+      "name": "ORMAT TECH INC",
+      "sector": "Utilities"
+    },
+    "LEA": {
+      "name": "LEAR",
+      "sector": "Consumer Discretionary"
+    },
+    "NEU": {
+      "name": "NEWMARKET",
+      "sector": "Materials"
+    },
+    "HWC": {
+      "name": "HANCOCK WHITNEY",
+      "sector": "Financials"
+    },
+    "SIRI": {
+      "name": "SIRIUSXM HOLDINGS",
+      "sector": "Communication"
+    },
+    "HOMB": {
+      "name": "HOME BANCSHARES INC",
+      "sector": "Financials"
+    },
+    "MP": {
+      "name": "MP MATERIALS CLASS A",
+      "sector": "Materials"
+    },
+    "BROS": {
+      "name": "DUTCH BROS CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "CRUS": {
+      "name": "CIRRUS LOGIC",
+      "sector": "Information Technology"
+    },
+    "NOVT": {
+      "name": "NOVANTA",
+      "sector": "Information Technology"
+    },
+    "SARO": {
+      "name": "STANDARDAERO",
+      "sector": "Industrials"
+    },
+    "FBIN": {
+      "name": "FORTUNE BRANDS INNOVATIONS",
+      "sector": "Industrials"
+    },
+    "HAE": {
+      "name": "HAEMONETICS CORP",
+      "sector": "Health Care"
+    },
+    "MTN": {
+      "name": "VAIL RESORTS",
+      "sector": "Consumer Discretionary"
+    },
+    "CELH": {
+      "name": "CELSIUS HOLDINGS",
+      "sector": "Consumer Staples"
+    },
+    "NJR": {
+      "name": "NEW JERSEY RESOURCES CORP",
+      "sector": "Utilities"
+    },
+    "VNO": {
+      "name": "VORNADO REALTY TRUST REIT",
+      "sector": "Real Estate"
+    },
+    "HIMS": {
+      "name": "HIMS HERS HEALTH CLASS A",
+      "sector": "Health Care"
+    },
+    "RYN": {
+      "name": "RAYONIER REIT",
+      "sector": "Real Estate"
+    },
+    "PATH": {
+      "name": "UIPATH INC CLASS A",
+      "sector": "Information Technology"
+    },
+    "CNX": {
+      "name": "CNX RESOURCES",
+      "sector": "Energy"
+    },
+    "APPF": {
+      "name": "APPFOLIO CLASS A",
+      "sector": "Information Technology"
+    },
+    "OLLI": {
+      "name": "OLLIES BARGAIN OUTLET HOLDINGS",
+      "sector": "Consumer Discretionary"
+    },
+    "MUR": {
+      "name": "MURPHY OIL",
+      "sector": "Energy"
+    },
+    "POR": {
+      "name": "PORTLAND GENERAL ELECTRIC",
+      "sector": "Utilities"
+    },
+    "FCN": {
+      "name": "FTI CONSULTING",
+      "sector": "Industrials"
+    },
+    "CNO": {
+      "name": "CNO FINANCIAL GROUP",
+      "sector": "Financials"
+    },
+    "SR": {
+      "name": "SPIRE INC",
+      "sector": "Utilities"
+    },
+    "SBRA": {
+      "name": "SABRA HEALTH CARE REIT",
+      "sector": "Real Estate"
+    },
+    "NXST": {
+      "name": "NEXSTAR MEDIA GROUP INC",
+      "sector": "Communication"
+    },
+    "DUOL": {
+      "name": "DUOLINGO CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "CHWY": {
+      "name": "CHEWY INC CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "FND": {
+      "name": "FLOOR DECOR HOLDINGS CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "LSTR": {
+      "name": "LANDSTAR SYSTEM",
+      "sector": "Industrials"
+    },
+    "TREX": {
+      "name": "TREX",
+      "sector": "Industrials"
+    },
+    "OGS": {
+      "name": "ONE GAS",
+      "sector": "Utilities"
+    },
+    "KRG": {
+      "name": "KITE REALTY GROUP TRUST REIT",
+      "sector": "Real Estate"
+    },
+    "BC": {
+      "name": "BRUNSWICK CORP",
+      "sector": "Consumer Discretionary"
+    },
+    "MIDD": {
+      "name": "MIDDLEBY",
+      "sector": "Industrials"
+    },
+    "ASB": {
+      "name": "ASSOCIATED BANCORP",
+      "sector": "Financials"
+    },
+    "KBR": {
+      "name": "KBR INC",
+      "sector": "Industrials"
+    },
+    "DBX": {
+      "name": "DROPBOX INC CLASS A",
+      "sector": "Information Technology"
+    },
+    "MSM": {
+      "name": "MSC INDUSTRIAL CLASS A",
+      "sector": "Industrials"
+    },
+    "VNT": {
+      "name": "VONTIER",
+      "sector": "Information Technology"
+    },
+    "NWE": {
+      "name": "NORTHWESTERN ENERGY GROUP",
+      "sector": "Utilities"
+    },
+    "RYAN": {
+      "name": "RYAN SPECIALTY HOLDINGS CLASS A",
+      "sector": "Financials"
+    },
+    "SFM": {
+      "name": "SPROUTS FARMERS MARKET INC",
+      "sector": "Consumer Staples"
+    },
+    "OZK": {
+      "name": "BANK OZK",
+      "sector": "Financials"
+    },
+    "GAP": {
+      "name": "GAP",
+      "sector": "Consumer Discretionary"
+    },
+    "SON": {
+      "name": "SONOCO PRODUCTS",
+      "sector": "Materials"
+    },
+    "AAON": {
+      "name": "AAON",
+      "sector": "Industrials"
+    },
+    "OPCH": {
+      "name": "OPTION CARE HEALTH INC",
+      "sector": "Health Care"
+    },
+    "LPX": {
+      "name": "LOUISIANA PACIFIC",
+      "sector": "Industrials"
+    },
+    "CUZ": {
+      "name": "COUSINS PROPERTIES REIT INC",
+      "sector": "Real Estate"
+    },
+    "AMKR": {
+      "name": "AMKOR TECHNOLOGY",
+      "sector": "Information Technology"
+    },
+    "AVAV": {
+      "name": "AEROVIRONMENT",
+      "sector": "Industrials"
+    },
+    "TNL": {
+      "name": "TRAVEL LEISURE",
+      "sector": "Consumer Discretionary"
+    },
+    "AN": {
+      "name": "AUTONATION",
+      "sector": "Consumer Discretionary"
+    },
+    "WMG": {
+      "name": "WARNER MUSIC GROUP CLASS A",
+      "sector": "Communication"
+    },
+    "SYNA": {
+      "name": "SYNAPTICS",
+      "sector": "Information Technology"
+    },
+    "SHC": {
+      "name": "SOTERA HEALTH COMPANY",
+      "sector": "Health Care"
+    },
+    "EPR": {
+      "name": "EPR PROPERTIES REIT",
+      "sector": "Real Estate"
+    },
+    "BBWI": {
+      "name": "BATH AND BODY WORKS",
+      "sector": "Consumer Discretionary"
+    },
+    "MORN": {
+      "name": "MORNINGSTAR",
+      "sector": "Financials"
+    },
+    "TCBI": {
+      "name": "TEXAS CAPITAL BANCSHARES",
+      "sector": "Financials"
+    },
+    "UFPI": {
+      "name": "UFP INDUSTRIES",
+      "sector": "Industrials"
+    },
+    "BCO": {
+      "name": "BRINKS",
+      "sector": "Industrials"
+    },
+    "ESAB": {
+      "name": "ESAB CORP",
+      "sector": "Industrials"
+    },
+    "VICR": {
+      "name": "VICOR",
+      "sector": "Industrials"
+    },
+    "FHI": {
+      "name": "FEDERATED HERMES INC CLASS B",
+      "sector": "Financials"
+    },
+    "LIVN": {
+      "name": "LIVANOVA PLC",
+      "sector": "Health Care"
+    },
+    "WING": {
+      "name": "WINGSTOP",
+      "sector": "Consumer Discretionary"
+    },
+    "ACI": {
+      "name": "ALBERTSONS COMPANY CLASS A",
+      "sector": "Consumer Staples"
+    },
+    "MAT": {
+      "name": "MATTEL INC",
+      "sector": "Consumer Discretionary"
+    },
+    "STWD": {
+      "name": "STARWOOD PROPERTY TRUST REIT INC",
+      "sector": "Financials"
+    },
+    "VVV": {
+      "name": "VALVOLINE",
+      "sector": "Consumer Discretionary"
+    },
+    "ALGM": {
+      "name": "ALLEGRO MICROSYSTEMS INC",
+      "sector": "Information Technology"
+    },
+    "GNTX": {
+      "name": "GENTEX",
+      "sector": "Consumer Discretionary"
+    },
+    "KRC": {
+      "name": "KILROY REALTY REIT",
+      "sector": "Real Estate"
+    },
+    "PVH": {
+      "name": "PVH",
+      "sector": "Consumer Discretionary"
+    },
+    "BDC": {
+      "name": "BELDEN",
+      "sector": "Information Technology"
+    },
+    "DOCS": {
+      "name": "DOXIMITY CLASS A",
+      "sector": "Health Care"
+    },
+    "PLNT": {
+      "name": "PLANET FITNESS INC CLASS A",
+      "sector": "Consumer Discretionary"
+    },
+    "ALK": {
+      "name": "ALASKA AIR GROUP INC",
+      "sector": "Industrials"
+    },
+    "EXPO": {
+      "name": "EXPONENT",
+      "sector": "Industrials"
+    },
+    "FFIN": {
+      "name": "FIRST FINANCIAL BANKSHARES INC",
+      "sector": "Financials"
+    },
+    "THO": {
+      "name": "THOR INDUSTRIES",
+      "sector": "Consumer Discretionary"
+    },
+    "BILL": {
+      "name": "BILL HOLDINGS",
+      "sector": "Information Technology"
+    },
+    "NVST": {
+      "name": "ENVISTA HOLDINGS",
+      "sector": "Health Care"
+    },
+    "AVNT": {
+      "name": "AVIENT CORP",
+      "sector": "Materials"
+    },
+    "GHC": {
+      "name": "GRAHAM HOLDINGS COMPANY CLASS B",
+      "sector": "Consumer Discretionary"
+    },
+    "BYD": {
+      "name": "BOYD GAMING",
+      "sector": "Consumer Discretionary"
+    },
+    "LOPE": {
+      "name": "GRAND CANYON EDUCATION INC",
+      "sector": "Consumer Discretionary"
+    },
+    "IESC": {
+      "name": "IES INC",
+      "sector": "Industrials"
+    },
+    "OLED": {
+      "name": "UNIVERSAL DISPLAY CORP",
+      "sector": "Information Technology"
+    },
+    "DLB": {
+      "name": "DOLBY LABORATORIES CLASS A",
+      "sector": "Information Technology"
+    },
+    "PAG": {
+      "name": "PENSKE AUTOMOTIVE GROUP VOTING INC",
+      "sector": "Consumer Discretionary"
+    },
+    "CDP": {
+      "name": "COPT DEFENSE PROPERTIES",
+      "sector": "Real Estate"
+    },
+    "CBT": {
+      "name": "CABOT CORP",
+      "sector": "Materials"
+    },
+    "SLGN": {
+      "name": "SILGAN HOLDINGS",
+      "sector": "Materials"
+    },
+    "IBOC": {
+      "name": "INTERNATIONAL BANCSHARES CORP",
+      "sector": "Financials"
+    },
+    "HLNE": {
+      "name": "HAMILTON LANE CLASS A",
+      "sector": "Financials"
+    },
+    "IRT": {
+      "name": "INDEPENDENCE REALTY",
+      "sector": "Real Estate"
+    },
+    "MMS": {
+      "name": "MAXIMUS",
+      "sector": "Industrials"
+    },
+    "PII": {
+      "name": "POLARIS INC",
+      "sector": "Consumer Discretionary"
+    },
+    "PK": {
+      "name": "PARK HOTELS RESORTS INC",
+      "sector": "Real Estate"
+    },
+    "GPK": {
+      "name": "GRAPHIC PACKAGING HOLDING",
+      "sector": "Materials"
+    },
+    "ASH": {
+      "name": "ASHLAND",
+      "sector": "Materials"
+    },
+    "KNF": {
+      "name": "KNIFE RIVER CORP",
+      "sector": "Materials"
+    },
+    "HOG": {
+      "name": "HARLEY DAVIDSON",
+      "sector": "Consumer Discretionary"
+    },
+    "SLM": {
+      "name": "SLM CORP",
+      "sector": "Financials"
+    },
+    "YETI": {
+      "name": "YETI HOLDINGS",
+      "sector": "Consumer Discretionary"
+    },
+    "FLG": {
+      "name": "FLAGSTAR BANK NATIONAL ASSOCIATION",
+      "sector": "Financials"
+    },
+    "POST": {
+      "name": "POST HOLDINGS",
+      "sector": "Consumer Staples"
+    },
+    "KBH": {
+      "name": "KB HOME",
+      "sector": "Consumer Discretionary"
+    },
+    "PEGA": {
+      "name": "PEGASYSTEMS",
+      "sector": "Information Technology"
+    },
+    "CXT": {
+      "name": "CRANE NXT",
+      "sector": "Information Technology"
+    },
+    "PSN": {
+      "name": "PARSONS CORP",
+      "sector": "Industrials"
+    },
+    "KD": {
+      "name": "KYNDRYL HOLDINGS",
+      "sector": "Information Technology"
+    },
+    "SMG": {
+      "name": "SCOTTS MIRACLE GRO",
+      "sector": "Materials"
+    },
+    "CHH": {
+      "name": "CHOICE HOTELS INTERNATIONAL",
+      "sector": "Consumer Discretionary"
+    },
+    "BHF": {
+      "name": "BRIGHTHOUSE FINANCIAL",
+      "sector": "Financials"
+    },
+    "HGV": {
+      "name": "HILTON GRAND VACATIONS",
+      "sector": "Consumer Discretionary"
+    },
+    "FOUR": {
+      "name": "SHIFT4 PAYMENTS CLASS A",
+      "sector": "Financials"
+    },
+    "EEFT": {
+      "name": "EURONET WORLDWIDE",
+      "sector": "Financials"
+    },
+    "WLK": {
+      "name": "WESTLAKE CORP",
+      "sector": "Materials"
+    },
+    "MZTI": {
+      "name": "MARZETTI",
+      "sector": "Consumer Staples"
+    },
+    "RH": {
+      "name": "RH",
+      "sector": "Consumer Discretionary"
+    },
+    "GEF": {
+      "name": "GREIF INC CLASS A",
+      "sector": "Materials"
+    },
+    "VC": {
+      "name": "VISTEON",
+      "sector": "Consumer Discretionary"
+    },
+    "WHR": {
+      "name": "WHIRLPOOL",
+      "sector": "Consumer Discretionary"
+    },
+    "IPGP": {
+      "name": "IPG PHOTONICS CORP",
+      "sector": "Information Technology"
+    },
+    "XRAY": {
+      "name": "DENTSPLY SIRONA",
+      "sector": "Health Care"
+    },
+    "CAR": {
+      "name": "AVIS BUDGET GROUP INC",
+      "sector": "Industrials"
+    },
+    "COLM": {
+      "name": "COLUMBIA SPORTSWEAR",
+      "sector": "Consumer Discretionary"
+    },
+    "PPC": {
+      "name": "PILGRIMS PRIDE CORP",
+      "sector": "Consumer Staples"
+    }
+  },
+  "additions": [
+    {
+      "ticker": "WFRD",
+      "name": "Weatherford International plc",
+      "sector": "Energy",
+      "market_cap": 6235343235.0,
+      "reason": "Weak Long: FY1/FY2 EPS growth -3.1%/24.5%; complete one-year LTM with upward QoQ trend and price/volume gates passed.",
+      "category": "Weak Long",
+      "price": 85.98,
+      "momentum_1m": 7.6,
+      "momentum_3m": -3.32,
+      "avg_dollar_volume": 6.9,
+      "adjusted_eps": 5.4581,
+      "pe_fy1": 15.75,
+      "pe_fy2": 12.66,
+      "eg_fy1": -3.05,
+      "eg_fy2": 24.45,
+      "imputed_forward_metrics": [],
+      "fiscal_year_end": "2026-12-31"
+    },
+    {
+      "ticker": "DUOL",
+      "name": "Duolingo, Inc.",
+      "sector": "Technology",
+      "market_cap": 6513211490.0,
+      "reason": "Weak Long: FY1/FY2 EPS growth -12.1%/22.7%; complete one-year LTM with upward QoQ trend and price/volume gates passed.",
+      "category": "Weak Long",
+      "price": 161.05,
+      "momentum_1m": 8.68,
+      "momentum_3m": 31.46,
+      "avg_dollar_volume": 10.6,
+      "adjusted_eps": 2.7413,
+      "pe_fy1": 58.75,
+      "pe_fy2": 47.88,
+      "eg_fy1": -12.14,
+      "eg_fy2": 22.71,
+      "imputed_forward_metrics": [],
+      "fiscal_year_end": "2026-12-31"
+    },
+    {
+      "ticker": "WING",
+      "name": "Wingstop Inc.",
+      "sector": "Consumer Cyclical",
+      "market_cap": 4534645986.0,
+      "reason": "Weak Long: FY1/FY2 EPS growth -2.8%/20.9%; complete one-year LTM with upward QoQ trend and price/volume gates passed.",
+      "category": "Weak Long",
+      "price": 167.65,
+      "momentum_1m": 49.15,
+      "momentum_3m": 44.19,
+      "avg_dollar_volume": 16.1,
+      "adjusted_eps": 4.1606,
+      "pe_fy1": 40.29,
+      "pe_fy2": 33.33,
+      "eg_fy1": -2.79,
+      "eg_fy2": 20.91,
+      "imputed_forward_metrics": [],
+      "fiscal_year_end": "2026-12-27"
+    },
+    {
+      "ticker": "BRKR",
+      "name": "Bruker Corporation",
+      "sector": "Healthcare",
+      "market_cap": 9718980610.0,
+      "reason": "Weak Long: FY1/FY2 EPS growth -293.0%/13.4%; complete one-year LTM with upward QoQ trend and price/volume gates passed.",
+      "category": "Weak Long",
+      "price": 63.88,
+      "momentum_1m": 5.59,
+      "momentum_3m": 24.62,
+      "avg_dollar_volume": 11.5,
+      "adjusted_eps": 2.1216,
+      "pe_fy1": 30.11,
+      "pe_fy2": 26.56,
+      "eg_fy1": -293.04,
+      "eg_fy2": 13.36,
+      "imputed_forward_metrics": [],
+      "fiscal_year_end": "2026-12-31"
+    },
+    {
+      "ticker": "LPX",
+      "name": "Louisiana-Pacific Corporation",
+      "sector": "Basic Materials",
+      "market_cap": 5511362388.0,
+      "reason": "Core Long: FY1/FY2 EPS growth 12.4%/157.9%; complete one-year LTM with upward QoQ trend and price/volume gates passed.",
+      "category": "Core Long",
+      "price": 78.81,
+      "momentum_1m": 17.79,
+      "momentum_3m": 4.18,
+      "avg_dollar_volume": 7.6,
+      "adjusted_eps": 1.1131,
+      "pe_fy1": 70.8,
+      "pe_fy2": 27.46,
+      "eg_fy1": 12.43,
+      "eg_fy2": 157.86,
+      "imputed_forward_metrics": [],
+      "fiscal_year_end": "2026-12-31"
+    },
+    {
+      "ticker": "SAIA",
+      "name": "Saia, Inc.",
+      "sector": "Industrials",
+      "market_cap": 9650821628.0,
+      "reason": "Core Long: FY1/FY2 EPS growth 8.8%/24.3%; complete one-year LTM with upward QoQ trend and price/volume gates passed.",
+      "category": "Core Long",
+      "price": 361.51,
+      "momentum_1m": 5.96,
+      "momentum_3m": -0.09,
+      "avg_dollar_volume": 13.5,
+      "adjusted_eps": 11.501,
+      "pe_fy1": 31.43,
+      "pe_fy2": 25.29,
+      "eg_fy1": 8.81,
+      "eg_fy2": 24.28,
+      "imputed_forward_metrics": [],
+      "fiscal_year_end": "2026-12-31"
+    },
+    {
+      "ticker": "APPF",
+      "name": "AppFolio Inc.",
+      "sector": "Technology",
+      "market_cap": 8397700309.0,
+      "reason": "Core Long: FY1/FY2 EPS growth 43.4%/21.4%; complete one-year LTM with upward QoQ trend and price/volume gates passed.",
+      "category": "Core Long",
+      "price": 236.78,
+      "momentum_1m": 16.32,
+      "momentum_3m": 21.98,
+      "avg_dollar_volume": 7.0,
+      "adjusted_eps": 6.8406,
+      "pe_fy1": 34.61,
+      "pe_fy2": 28.51,
+      "eg_fy1": 43.41,
+      "eg_fy2": 21.42,
+      "imputed_forward_metrics": [],
+      "fiscal_year_end": "2026-12-31"
+    },
+    {
+      "ticker": "FCN",
+      "name": "FTI Consulting, Inc.",
+      "sector": "Industrials",
+      "market_cap": 5405052944.0,
+      "reason": "Core Long: FY1/FY2 EPS growth 23.8%/13.4%; complete one-year LTM with upward QoQ trend and price/volume gates passed.",
+      "category": "Core Long",
+      "price": 198.51,
+      "momentum_1m": 43.93,
+      "momentum_3m": 31.63,
+      "avg_dollar_volume": 6.7,
+      "adjusted_eps": 9.8167,
+      "pe_fy1": 20.22,
+      "pe_fy2": 17.82,
+      "eg_fy1": 23.79,
+      "eg_fy2": 13.45,
+      "imputed_forward_metrics": [],
+      "fiscal_year_end": "2026-12-31"
+    }
+  ],
+  "removals": [
+    {
+      "ticker": "AAL",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ACI",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ACM",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ALK",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ALV",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "AM",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "AMG",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "AMKR",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "AN",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ANF",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ASB",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ASH",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ATR",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "AVNT",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "AVT",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "AXTA",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "BBWI",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "BC",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "BCO",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "BDC",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "BILL",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "BKH",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "BRX",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "BYD",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CAR",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CBSH",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CBT",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CDP",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CFR",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CGNX",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CHDN",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CHH",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CHRD",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CMC",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CNO",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CNX",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "COLB",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "COLM",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CORT",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CROX",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CRUS",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CTVA",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CUZ",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CVLT",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CXT",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "CYTK",
+      "reason": "FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "DAR",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "DBX",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "DCI",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "DLB",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "EAT",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ENS",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "EPR",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ESNT",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "EXLS",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "EXP",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "EXPO",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FAF",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FBIN",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FCFS",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FFIN",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FHI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FNB",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FND",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FOUR",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "FR",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "G",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "GAP",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "GATX",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "GBCI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "GEF",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "GHC",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "GNTX",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "GXO",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "HGV",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "HIMS",
+      "reason": "FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "HLNE",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "HOMB",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "HR",
+      "reason": "FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "HRB",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "HWC",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "IBOC",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "IDA",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "IDCC",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "IESC",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "INGR",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "IRT",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "KBH",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "KBR",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "KNF",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "KNSL",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "KRC",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "KRG",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "LAD",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "LEA",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "LOPE",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "LSTR",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "M",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MIDD",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MMS",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MORN",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MP",
+      "reason": "FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MSA",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MTDR",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MTG",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MUR",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MUSA",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "MZTI",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "NEU",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "NFG",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "NJR",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "NOVT",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "NWE",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "NXST",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "OGS",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "OLED",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ONB",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ORA",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ORI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "OZK",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PATH",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PB",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PBF",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PCTY",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PEGA",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PII",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PLNT",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "POR",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "POST",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PPC",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PRI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PSN",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "PVH",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "QLYS",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "REXR",
+      "reason": "FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "RLI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "RYAN",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "RYN",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SAIC",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SANM",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SBRA",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SFM",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SHC",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SIGI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SLAB",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SLGN",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SMG",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SOLS",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SON",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SPXC",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SR",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SSD",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ST",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "STAG",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "STWD",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "SWX",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "TCBI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "THG",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "TNL",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "TREX",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "TXNM",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "UBSI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "UFPI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "UGI",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "VAL",
+      "reason": "20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "VLY",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "VNO",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "VNT",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "VVV",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "WAL",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "WEX",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "WH",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "WLK",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "YETI",
+      "reason": "FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M",
+      "source": "forward fundamentals/liquidity"
+    },
+    {
+      "ticker": "ZION",
+      "reason": "FY2 earnings growth is negative or below sector average",
+      "source": "forward fundamentals/liquidity"
+    }
+  ],
+  "report": "\n---\n\n## Stock Universe Discovery\n\nQuarterly statements and annual analyst EPS estimates come from FMP; daily bars and latest trades come from Alpaca. Only stocks with a verified market cap from $3B through $10B are included in discovery and sector-average calculations. FY1 is the current, not-yet-completed fiscal year; its EPS-growth baseline is the prior reported FY0 EPS when available. FY2 growth compares FY2 and FY1 forward EPS. Missing values may use FMP forwardPE or same-sector analyst-estimate statistics. Reported quarterly LTM data is a separate backward-looking recovery validation and is not used to calculate forward EPS. Missing volume data disables only the volume-expansion gate. Missing quarterly statements remain excluded: P/E ratios cannot reconstruct reported revenue, EBITDA, or LTM recovery.\n\n### Suggested Additions (8 stocks)\n\n| Ticker | Category | Sector | Market Cap | Price | P/E FY1 | P/E FY2 | EG FY1 | EG FY2 | Avg Vol($M) | Reason |\n|--------|----------|--------|------------|-------|---------|---------|--------|--------|-------------|--------|\n| **WFRD** | Weak Long | Energy | $6.24B | $85.98 | 15.8 | 12.7 | -3.0% | +24.4% | 6.9 | Weak Long: FY1/FY2 EPS growth -3.1%/24.5%; complete one-year LTM with upward QoQ trend and price/vol |\n| **DUOL** | Weak Long | Technology | $6.51B | $161.05 | 58.8 | 47.9 | -12.1% | +22.7% | 10.6 | Weak Long: FY1/FY2 EPS growth -12.1%/22.7%; complete one-year LTM with upward QoQ trend and price/vo |\n| **WING** | Weak Long | Consumer Cyclic | $4.53B | $167.65 | 40.3 | 33.3 | -2.8% | +20.9% | 16.1 | Weak Long: FY1/FY2 EPS growth -2.8%/20.9%; complete one-year LTM with upward QoQ trend and price/vol |\n| **BRKR** | Weak Long | Healthcare | $9.72B | $63.88 | 30.1 | 26.6 | -293.0% | +13.4% | 11.5 | Weak Long: FY1/FY2 EPS growth -293.0%/13.4%; complete one-year LTM with upward QoQ trend and price/v |\n| **LPX** | Core Long | Basic Materials | $5.51B | $78.81 | 70.8 | 27.5 | +12.4% | +157.9% | 7.6 | Core Long: FY1/FY2 EPS growth 12.4%/157.9%; complete one-year LTM with upward QoQ trend and price/vo |\n| **SAIA** | Core Long | Industrials | $9.65B | $361.51 | 31.4 | 25.3 | +8.8% | +24.3% | 13.5 | Core Long: FY1/FY2 EPS growth 8.8%/24.3%; complete one-year LTM with upward QoQ trend and price/volu |\n| **APPF** | Core Long | Technology | $8.40B | $236.78 | 34.6 | 28.5 | +43.4% | +21.4% | 7.0 | Core Long: FY1/FY2 EPS growth 43.4%/21.4%; complete one-year LTM with upward QoQ trend and price/vol |\n| **FCN** | Core Long | Industrials | $5.41B | $198.51 | 20.2 | 17.8 | +23.8% | +13.4% | 6.7 | Core Long: FY1/FY2 EPS growth 23.8%/13.4%; complete one-year LTM with upward QoQ trend and price/vol |\n\n### Removal Candidates (175 stocks)\n\n| Ticker | Reason | Source |\n|--------|--------|--------|\n| **AAL** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **ACI** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **ACM** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **ALK** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **ALV** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **AM** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **AMG** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **AMKR** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **AN** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **ANF** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **ASB** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **ASH** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **ATR** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **AVNT** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **AVT** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **AXTA** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **BBWI** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **BC** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **BCO** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **BDC** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **BILL** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **BKH** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **BRX** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **BYD** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **CAR** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CBSH** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CBT** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CDP** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CFR** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CGNX** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **CHDN** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **CHH** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CHRD** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **CMC** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CNO** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CNX** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **COLB** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **COLM** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CORT** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CROX** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **CRUS** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **CTVA** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **CUZ** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CVLT** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **CXT** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **CYTK** | FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive | forward fundamentals/liquidity |\n| **DAR** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **DBX** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **DCI** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **DLB** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **EAT** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **ENS** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **EPR** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **ESNT** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **EXLS** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **EXP** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **EXPO** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **FAF** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **FBIN** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **FCFS** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **FFIN** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **FHI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **FNB** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **FND** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **FOUR** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **FR** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **G** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **GAP** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **GATX** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **GBCI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **GEF** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **GHC** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **GNTX** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **GXO** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **HGV** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **HIMS** | FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive | forward fundamentals/liquidity |\n| **HLNE** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **HOMB** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **HR** | FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive | forward fundamentals/liquidity |\n| **HRB** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **HWC** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **IBOC** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **IDA** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **IDCC** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **IESC** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **INGR** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **IRT** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **KBH** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **KBR** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **KNF** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **KNSL** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **KRC** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **KRG** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **LAD** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **LEA** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **LOPE** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **LSTR** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **M** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **MIDD** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **MMS** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **MORN** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **MP** | FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive | forward fundamentals/liquidity |\n| **MSA** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **MTDR** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **MTG** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **MUR** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **MUSA** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **MZTI** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **NEU** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **NFG** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **NJR** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **NOVT** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **NWE** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **NXST** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **OGS** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **OLED** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **ONB** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **ORA** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **ORI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **OZK** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **PATH** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **PB** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **PBF** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **PCTY** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **PEGA** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **PII** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **PLNT** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **POR** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **POST** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **PPC** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **PRI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **PSN** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **PVH** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **QLYS** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **REXR** | FY2 earnings growth is negative or below sector average; Turnaround failed: FY2 earnings growth is non-positive | forward fundamentals/liquidity |\n| **RLI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **RYAN** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **RYN** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SAIC** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SANM** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **SBRA** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SFM** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **SHC** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SIGI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SLAB** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SLGN** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SMG** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SOLS** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **SON** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SPXC** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **SR** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SSD** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **ST** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **STAG** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **STWD** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **SWX** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **TCBI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **THG** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **TNL** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **TREX** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **TXNM** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **UBSI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **UFPI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **UGI** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **VAL** | 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **VLY** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **VNO** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **VNT** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **VVV** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **WAL** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **WEX** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **WH** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n| **WLK** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **YETI** | FY2 earnings growth is negative or below sector average; 20-day average dollar volume below $5M | forward fundamentals/liquidity |\n| **ZION** | FY2 earnings growth is negative or below sector average | forward fundamentals/liquidity |\n\n### Excluded Candidates\n\n- Value Trap: fewer than four complete quarters: 3\n- Value Trap: listing history is under two years: 1\n- Value Trap: no upward LTM QoQ trend: 8\n- also meets a removal rule: 3\n- forward criteria not met: 201\n- insufficient volume expansion: 9\n- market cap above $10B: 148\n- market cap below $3B: 7\n- price trend confirmation failed: 12\n\n> These are screening results, not investment advice. Review before changing the configured universe.\n\n---\n"
+}
