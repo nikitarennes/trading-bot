@@ -54,16 +54,20 @@ jobs:
         run: |
           if [ "$DRY_RUN" = "true" ]; then
             docker run --rm \
+              --entrypoint python \
               --env ALPACA_API_KEY \
               --env ALPACA_SECRET_KEY \
               --env TRADING_TICKERS \
               --env REBALANCE_INTERVAL_DAYS \
-              trading-bot-paper:${GITHUB_SHA} --dry-run
+              trading-bot-paper:${GITHUB_SHA} \
+              scripts/run_paper_rebalance.py --dry-run
           else
             docker run --rm \
+              --entrypoint python \
               --env ALPACA_API_KEY \
               --env ALPACA_SECRET_KEY \
               --env TRADING_TICKERS \
               --env REBALANCE_INTERVAL_DAYS \
-              trading-bot-paper:${GITHUB_SHA}
+              trading-bot-paper:${GITHUB_SHA} \
+              scripts/run_paper_rebalance.py
           fi
