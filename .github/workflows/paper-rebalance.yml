@@ -12,7 +12,7 @@ on:
         default: true
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: paper-rebalance
@@ -23,18 +23,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      TRADING_TICKERS: ${{ vars.TRADING_TICKERS || 'WFRD,WING,LPX,BROS,SAIA,APPF' }}
       PAPER_TRADING_ENABLED: ${{ vars.PAPER_TRADING_ENABLED }}
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
       ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
       ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
       REBALANCE_INTERVAL_DAYS: "5"
+      PYTHONUNBUFFERED: "1"
 
     steps:
       - name: Check out source
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Require explicit paper-trading enablement
         run: |
@@ -42,8 +43,8 @@ jobs:
             echo "Paper orders are disabled. Set the repository variable PAPER_TRADING_ENABLED=true only after disabling any old GCP schedule."
             exit 1
           fi
-          if [ -z "$ALPACA_API_KEY" ] || [ -z "$ALPACA_SECRET_KEY" ]; then
-            echo "Missing ALPACA_API_KEY or ALPACA_SECRET_KEY repository secrets."
+          if [ -z "$ALPACA_API_KEY" ] || [ -z "$ALPACA_SECRET_KEY" ] || [ -z "$FMP_API_KEY" ]; then
+            echo "Missing ALPACA_API_KEY, ALPACA_SECRET_KEY, or FMP_API_KEY repository secrets."
             exit 1
           fi
 
@@ -52,22 +53,61 @@ jobs:
 
       - name: Run paper rebalance
         run: |
+          mkdir -p data/discovery_snapshots
           if [ "$DRY_RUN" = "true" ]; then
             docker run --rm \
               --entrypoint python \
+              --volume "$GITHUB_WORKSPACE/data/discovery_snapshots:/app/data/discovery_snapshots" \
               --env ALPACA_API_KEY \
               --env ALPACA_SECRET_KEY \
-              --env TRADING_TICKERS \
+              --env FMP_API_KEY \
               --env REBALANCE_INTERVAL_DAYS \
+              --env PYTHONUNBUFFERED \
               trading-bot-paper:${GITHUB_SHA} \
               scripts/run_paper_rebalance.py --dry-run
           else
             docker run --rm \
               --entrypoint python \
+              --volume "$GITHUB_WORKSPACE/data/discovery_snapshots:/app/data/discovery_snapshots" \
               --env ALPACA_API_KEY \
               --env ALPACA_SECRET_KEY \
-              --env TRADING_TICKERS \
+              --env FMP_API_KEY \
               --env REBALANCE_INTERVAL_DAYS \
+              --env PYTHONUNBUFFERED \
               trading-bot-paper:${GITHUB_SHA} \
               scripts/run_paper_rebalance.py
+          fi
+
+      - name: Archive discovery snapshot
+        if: always()
+        run: |
+          snapshot_dir="$GITHUB_WORKSPACE/data/discovery_snapshots"
+          if [ ! -d "$snapshot_dir" ] || [ -z "$(find "$snapshot_dir" -maxdepth 1 -name 'discovery_*.json' -print -quit)" ]; then
+            echo "No discovery snapshot was generated."
+            exit 0
+          fi
+
+          mkdir -p "$RUNNER_TEMP/discovery-snapshot"
+          cp "$snapshot_dir"/discovery_*.json "$RUNNER_TEMP/discovery-snapshot/"
+
+          snapshot_worktree="$RUNNER_TEMP/discovery-snapshot-worktree"
+          if git ls-remote --exit-code --heads origin discovery-snapshots >/dev/null 2>&1; then
+            git fetch origin discovery-snapshots
+            git worktree add --detach "$snapshot_worktree" origin/discovery-snapshots
+            git -C "$snapshot_worktree" checkout -B discovery-snapshots origin/discovery-snapshots
+          else
+            git worktree add --detach "$snapshot_worktree" HEAD
+            git -C "$snapshot_worktree" checkout --orphan discovery-snapshots
+          fi
+
+          mkdir -p "$snapshot_worktree/data/discovery_snapshots"
+          cp "$RUNNER_TEMP/discovery-snapshot/"discovery_*.json "$snapshot_worktree/data/discovery_snapshots/"
+          git -C "$snapshot_worktree" config user.name "github-actions[bot]"
+          git -C "$snapshot_worktree" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C "$snapshot_worktree" add data/discovery_snapshots
+          if git -C "$snapshot_worktree" diff --cached --quiet; then
+            echo "Discovery snapshot already archived."
+          else
+            git -C "$snapshot_worktree" commit -m "Archive weekly stock discovery snapshot"
+            git -C "$snapshot_worktree" push origin discovery-snapshots
           fi
