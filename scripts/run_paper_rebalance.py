@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Discover IJH constituents and rebalance the Alpaca paper account weekly."""
 import argparse
-from datetime import datetime, timezone
-import json
 import os
 import sys
 
@@ -23,33 +21,6 @@ def _load_local_env():
                 os.environ.setdefault(key.strip(), value.strip())
 
 
-def save_discovery_snapshot(universe, discovery, output_dir=None):
-    """Persist the complete weekly discovery result without credentials."""
-    snapshot_dir = output_dir or os.environ.get(
-        "DISCOVERY_SNAPSHOT_DIR",
-        os.path.join(_ROOT, "data", "discovery_snapshots"),
-    )
-    captured_at = datetime.now(timezone.utc)
-    snapshot = {
-        "schema_version": 1,
-        "captured_at_utc": captured_at.isoformat(),
-        "candidate_universe": universe,
-        "additions": discovery.get("additions", []),
-        "removals": discovery.get("removals", []),
-        "report": discovery.get("report", ""),
-    }
-    os.makedirs(snapshot_dir, exist_ok=True)
-    path = os.path.join(
-        snapshot_dir,
-        f"discovery_{captured_at.date().isoformat()}.json",
-    )
-    with open(path, "w", encoding="utf-8") as snapshot_file:
-        json.dump(snapshot, snapshot_file, indent=2, allow_nan=False)
-        snapshot_file.write("\n")
-    print(f"Discovery snapshot saved: {path}")
-    return path
-
-
 def run_paper_rebalance(dry_run=False):
     """Discover eligible names, analyze them, then rebalance paper positions."""
     _load_local_env()
@@ -67,7 +38,6 @@ def run_paper_rebalance(dry_run=False):
     universe = stock_discovery.load_ijh_universe()
     print(f"Loaded {len(universe)} current IJH constituents for weekly discovery.")
     discovery = stock_discovery.discover_stocks(universe)
-    save_discovery_snapshot(universe, discovery)
     candidates = discovery.get("additions") or []
     tickers = list(dict.fromkeys(
         str(candidate.get("ticker", "")).strip().upper()

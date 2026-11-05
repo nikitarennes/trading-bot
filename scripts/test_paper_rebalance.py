@@ -1,15 +1,13 @@
 """Offline tests for weekly discovery-based paper rebalancing."""
-import json
 import os
 import sys
-import tempfile
 import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from run_paper_rebalance import run_paper_rebalance, save_discovery_snapshot
+from run_paper_rebalance import run_paper_rebalance
 import stock_discovery
 
 
@@ -52,9 +50,6 @@ class PaperRebalanceTests(unittest.TestCase):
         self.env.start()
         self.addCleanup(self.modules.stop)
         self.addCleanup(self.env.stop)
-        self.snapshot_writer = patch("run_paper_rebalance.save_discovery_snapshot")
-        self.snapshot_writer.start()
-        self.addCleanup(self.snapshot_writer.stop)
 
     def _run_analysis(self, tickers, **kwargs):
         self.analysis_calls.append((tickers, kwargs))
@@ -120,26 +115,6 @@ class IjhUniverseTests(unittest.TestCase):
 
         self.assertEqual(len(universe), 301)
         self.assertEqual(universe["TICK0"]["sector"], "Industrials")
-
-
-class DiscoverySnapshotTests(unittest.TestCase):
-    def test_persists_universe_additions_and_removals_without_credentials(self):
-        universe = {"AAA": {"sector": "Industrials"}}
-        discovery = {
-            "additions": [{"ticker": "AAA", "market_cap": 4_000_000_000}],
-            "removals": [{"ticker": "OLD", "reason": "failed screen"}],
-            "report": "weekly screening report",
-        }
-        with tempfile.TemporaryDirectory() as directory:
-            path = save_discovery_snapshot(universe, discovery, output_dir=directory)
-            with open(path, encoding="utf-8") as snapshot_file:
-                snapshot = json.load(snapshot_file)
-
-        self.assertEqual(snapshot["candidate_universe"], universe)
-        self.assertEqual(snapshot["additions"], discovery["additions"])
-        self.assertEqual(snapshot["removals"], discovery["removals"])
-        self.assertIn("captured_at_utc", snapshot)
-        self.assertNotIn("FMP_API_KEY", json.dumps(snapshot))
 
 
 if __name__ == "__main__":
